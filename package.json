@@ -1,0 +1,27 @@
+{
+  "name": "slide-verify",
+  "version": "0.1.0",
+  "description": "front-end slide verify",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mikexfreeze/slide-verify.git"
+  },
+  "keywords": [
+    "slide",
+    "verify",
+    "verification"
+  ],
+  "author": "Micheal Xiao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikexfreeze/slide-verify/issues"
+  },
+  "homepage": "https://github.com/mikexfreeze/slide-verify#readme",
+  "devDependencies": {
+    "webpack": "^4.36.1"
+  }
+}
