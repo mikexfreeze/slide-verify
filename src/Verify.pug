@@ -1,2 +1,10 @@
 - styles = require("./main.css");
-p(class=styles.gery) #{name}'s Pug source code!
+#ImgVerif(style='height: 225px; position: relative; width: 310px; margin: 0px auto;')
+  canvas(width='310', height='155')
+  .refreshIcon
+  canvas.block(width='310', height='155')
+  .sliderContainer
+    .sliderMask
+      .slider
+        span.sliderIcon
+    span.sliderText 向右滑动填充拼图
