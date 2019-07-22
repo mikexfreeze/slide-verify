@@ -17,7 +17,7 @@ module.exports = merge(common, {
     }),
     new HtmlWebpackPlugin({ // html 模板插件，不指定模板会自动创建模板
       chunksSortMode: 'none',
-      // template: 'src/index.html',
+      template: 'src/index.html',
     }),
   ],
 });

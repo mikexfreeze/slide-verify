@@ -14,15 +14,16 @@ module.exports = {
         test: /\.js$/,
         include: path.resolve(__dirname, '../src'),
         use: 'babel-loader'
-      },
-      {
+      }, {
         test: /\.css$/,
         use: ["style-loader", "css-loader"]
-      }
+      }, {
+        test: /\.pug$/,
+        use: ["pug-loader"]
+      },
     ]
   },
   plugins: [
     new WebpackBar(), // 编译进度条组件
-  ],
-
+  ]
 }
