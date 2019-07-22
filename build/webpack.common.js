@@ -16,7 +16,16 @@ module.exports = {
         use: 'babel-loader'
       }, {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: [
+          {loader: "style-loader"},
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true,
+              modules: true,
+            }
+          }
+        ]
       }, {
         test: /\.pug$/,
         use: ["pug-loader"]
