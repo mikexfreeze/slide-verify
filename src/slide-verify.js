@@ -1,12 +1,13 @@
 /* create by Micheal Xiao 2019/7/19 15:56 */
 import * as ImgArray from './img'
+import styles from './main.css'
 
 const Verify = require('./Verify.pug');
 
 const l = 42, // 滑块边长
   r = 9, // 滑块半径
   w = 310, // canvas宽度
-  h = 155, // canvas高度
+  h = 210, // canvas高度
   PI = Math.PI
 const L = l + r * 2 + 3 // 滑块实际边长
 const isIE = window.navigator.userAgent.indexOf('Trident') > -1
@@ -203,7 +204,7 @@ export default class SlideVerify {
       const blockLeft = (w - 40 - 20) / (w - 40) * moveX
       this.block.style.left = blockLeft + 'px'
       
-      addClass(this.sliderContainer, 'sliderContainer_active')
+      addClass(this.sliderContainer, styles.sliderContainer_active)
       this.sliderMask.style.width = moveX + 'px'
       trail.push(moveY)
     }
@@ -213,20 +214,20 @@ export default class SlideVerify {
       isMouseDown = false
       const eventX = e.clientX || e.changedTouches[0].clientX
       if (eventX == originX) return false
-      removeClass(this.sliderContainer, 'sliderContainer_active')
+      removeClass(this.sliderContainer, styles.sliderContainer_active)
       this.trail = trail
       const {spliced, verified} = this.verify()
       if (spliced) {
         if (verified) {
-          addClass(this.sliderContainer, 'sliderContainer_success')
+          addClass(this.sliderContainer, styles.sliderContainer_success)
           typeof this.onSuccess === 'function' && this.onSuccess()
         } else {
-          addClass(this.sliderContainer, 'sliderContainer_fail')
+          addClass(this.sliderContainer, styles.sliderContainer_fail)
           this.text.innerHTML = '再试一次'
           this.reset()
         }
       } else {
-        addClass(this.sliderContainer, 'sliderContainer_fail')
+        addClass(this.sliderContainer, styles.sliderContainer_fail)
         typeof this.onFail === 'function' && this.onFail()
         setTimeout(() => {
           this.reset()
@@ -256,7 +257,7 @@ export default class SlideVerify {
   }
   
   reset() {
-    this.sliderContainer.className = 'sliderContainer'
+    this.sliderContainer.className = styles.sliderContainer
     this.slider.style.left = 0
     this.block.style.left = 0
     this.sliderMask.style.width = 0

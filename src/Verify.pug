@@ -1,10 +1,10 @@
 - styles = require("./main.css");
 #ImgVerif(style='height: 225px; position: relative; width: 310px; margin: 0px auto;')
-  canvas(width='310', height='155')
-  .refreshIcon
-  canvas.block(width='310', height='155')
-  .sliderContainer
-    .sliderMask
-      .slider
-        span.sliderIcon
-    span.sliderText 向右滑动填充拼图
+  canvas(width='310', height='210')
+  .refreshIcon(class=styles.refreshIcon)
+  canvas(class=styles.block)(width='310', height='210')
+  .sliderContainer(class=styles.sliderContainer)
+    .sliderMask(class=styles.sliderMask)
+      .slider(class=styles.slider)
+        span.sliderIcon(class=styles.sliderIcon)
+    span.sliderText(class=styles.sliderText) 向右滑动填充拼图
