@@ -1,4 +1,6 @@
 /* create by Micheal Xiao 2019/7/19 15:56 */
+import * as ImgArray from './img'
+
 const Verify = require('./Verify.pug');
 
 const l = 42, // 滑块边长
@@ -9,18 +11,18 @@ const l = 42, // 滑块边长
 const L = l + r * 2 + 3 // 滑块实际边长
 const isIE = window.navigator.userAgent.indexOf('Trident') > -1
 
-function getRandomNumberByRange (start, end) {
+function getRandomNumberByRange(start, end) {
   return Math.round(Math.random() * (end - start) + start)
 }
 
-function createCanvas (width, height) {
+function createCanvas(width, height) {
   const canvas = document.createElement('canvas')
   canvas.width = width
   canvas.height = height
   return canvas
 }
 
-function createImg (onload) {
+function createImg(onload) {
   const img = new Image()
   img.crossOrigin = "Anonymous"
   img.onload = onload
@@ -41,33 +43,33 @@ function createImg (onload) {
       xhr.open('GET', src)
       xhr.responseType = 'blob'
       xhr.send()
-    }
-    else img.src = src
+    } else img.src = src
   }
   
   img.setSrc(getRandomImgSrc())
   return img
 }
 
-function createElement (tagName, className) {
+function createElement(tagName, className) {
   const elment = document.createElement(tagName)
   elment.className = className
   return elment
 }
 
-function addClass (tag, className) {
+function addClass(tag, className) {
   tag.classList.add(className)
 }
 
-function removeClass (tag, className) {
+function removeClass(tag, className) {
   tag.classList.remove(className)
 }
 
-function getRandomImgSrc () {
-  return '//picsum.photos/300/150/?image=' + getRandomNumberByRange(0, 1084)
+function getRandomImgSrc() {
+  // return '//picsum.photos/300/150/?image=' + getRandomNumberByRange(0, 1084)
+  return ImgArray[`Img${getRandomNumberByRange(0, 9)}`]
 }
 
-function draw (ctx, x, y, operation) {
+function draw(ctx, x, y, operation) {
   ctx.beginPath()
   ctx.moveTo(x, y)
   ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
@@ -85,17 +87,17 @@ function draw (ctx, x, y, operation) {
   ctx.globalCompositeOperation = 'destination-over'
 }
 
-function sum (x, y) {
+function sum(x, y) {
   return x + y
 }
 
-function square (x) {
+function square(x) {
   return x * x
 }
 
 
 export default class SlideVerify {
-  constructor ({ elementId, onSuccess, onFail, onRefresh }) {
+  constructor({elementId, onSuccess, onFail, onRefresh}) {
     let conEl = document.getElementById(elementId)
     conEl.innerHTML = Verify({name: 'Timothy'})
     let el = conEl.firstChild
@@ -121,7 +123,7 @@ export default class SlideVerify {
     let text = sliderContainer.childNodes[1]
     let slider = sliderMask.childNodes[0]
     let sliderIcon = sliderMask.childNodes[0]
-  
+    
     Object.assign(this, {
       canvas,
       block,
@@ -134,9 +136,12 @@ export default class SlideVerify {
       canvasCtx: canvas.getContext('2d'),
       blockCtx: block.getContext('2d')
     })
-  
+    
     this.initImg()
     this.bindEvents()
+    
+    console.log("ImgArray", ImgArray)
+    
   }
   
   init = (elementId) => {
@@ -144,8 +149,7 @@ export default class SlideVerify {
   }
   
   
-  
-  initImg () {
+  initImg() {
     const img = createImg(() => {
       this.draw()
       this.canvasCtx.drawImage(img, 0, 0, w, h)
@@ -159,7 +163,7 @@ export default class SlideVerify {
     this.img = img
   }
   
-  draw () {
+  draw() {
     // 随机创建滑块的位置
     this.x = getRandomNumberByRange(L + 10, w - (L + 10))
     this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
@@ -167,13 +171,13 @@ export default class SlideVerify {
     draw(this.blockCtx, this.x, this.y, 'clip')
   }
   
-  clean () {
+  clean() {
     this.canvasCtx.clearRect(0, 0, w, h)
     this.blockCtx.clearRect(0, 0, w, h)
     this.block.width = w
   }
   
-  bindEvents () {
+  bindEvents() {
     this.el.onselectstart = () => false
     this.refreshIcon.onclick = () => {
       this.reset()
@@ -211,7 +215,7 @@ export default class SlideVerify {
       if (eventX == originX) return false
       removeClass(this.sliderContainer, 'sliderContainer_active')
       this.trail = trail
-      const { spliced, verified } = this.verify()
+      const {spliced, verified} = this.verify()
       if (spliced) {
         if (verified) {
           addClass(this.sliderContainer, 'sliderContainer_success')
@@ -239,7 +243,7 @@ export default class SlideVerify {
     document.addEventListener('touchend', handleDragEnd)
   }
   
-  verify () {
+  verify() {
     const arr = this.trail // 拖动时y轴的移动距离
     const average = arr.reduce(sum) / arr.length
     const deviations = arr.map(x => x - average)
@@ -251,7 +255,7 @@ export default class SlideVerify {
     }
   }
   
-  reset () {
+  reset() {
     this.sliderContainer.className = 'sliderContainer'
     this.slider.style.left = 0
     this.block.style.left = 0
