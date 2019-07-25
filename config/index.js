@@ -6,11 +6,6 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,//开发模式项目默认启动端口
-    // autoOpenBrowser: true,
-    // assetsSubDirectory: 'static',
-    // assetsPublicPath: '/',
-    // proxyTable: {},
-    // cssSourceMap: false
+    port: 8686,//开发模式项目默认启动端口
   }
 }
