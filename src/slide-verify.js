@@ -16,13 +16,6 @@ function getRandomNumberByRange(start, end) {
   return Math.round(Math.random() * (end - start) + start)
 }
 
-function createCanvas(width, height) {
-  const canvas = document.createElement('canvas')
-  canvas.width = width
-  canvas.height = height
-  return canvas
-}
-
 function createImg(onload) {
   const img = new Image()
   img.crossOrigin = "Anonymous"
@@ -67,11 +60,11 @@ function removeClass(tag, className) {
 
 function getRandomImgSrc() {
   // return '//picsum.photos/300/150/?image=' + getRandomNumberByRange(0, 1084)
-  return ImgArray[`Img${getRandomNumberByRange(0, 9)}`]
+  return ImgArray[`Img${getRandomNumberByRange(7, 7.1)}`]
 }
 
 function drawPiece(ctx, x, y){
-  ctx.beginPath()
+  // ctx.beginPath()
   ctx.moveTo(x, y)
   ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
   ctx.lineTo(x + l, y)
@@ -82,89 +75,128 @@ function drawPiece(ctx, x, y){
   ctx.lineTo(x, y)
 }
 
-function drawDev(){
+function drawPieceInsideShadow(ctx, x, y){
   // 第一步生成一个piece图形模板
-  
   let piece = document.createElement("canvas");
-  piece.width = 100
-  piece.height = 100
+  piece.width = w
+  piece.height = h
   let pieceCtx = piece.getContext("2d");
   pieceCtx.fillStyle = "white";
   
-  drawPiece(pieceCtx, 20, 20)
-  
+  drawPiece(pieceCtx, x, y)
   pieceCtx.lineWidth = 1
   pieceCtx.strokeStyle = 'rgba(0, 0, 0, 1)'
   pieceCtx.stroke()
   pieceCtx["clip"]()
-  
-  document.body.appendChild(piece);
+  // document.body.appendChild(piece);
   
   // 第二部生成piece外围黑边准备用于内投影
   var hole = document.createElement("canvas");
   var holeContext = hole.getContext("2d");
-  hole.width = 100
-  hole.height = 100
+  hole.width = w
+  hole.height = h
   
   //first, I draw a big black rect
   holeContext.fillStyle = "#000000";
-  holeContext.fillRect(0,0,100,100)
+  holeContext.fillRect(0,0,w,h)
   //then I use the image to make an hole in it
   holeContext.globalCompositeOperation = "xor";
   
-  drawPiece(holeContext, 20, 30)
+  drawPiece(holeContext, x, y)
   holeContext.lineWidth = 0
   // holeContext.strokeStyle = 'rgba(255, 255, 255, 1)'
   holeContext.fillStyle = "tranparent";
   holeContext.stroke()
   holeContext.fill()
-  
-  document.body.appendChild(hole);
+  // document.body.appendChild(hole);
   
   // 第三部生成内shadow
   var shadow = document.createElement("canvas");
   var shadowContext = shadow.getContext("2d");
-  shadow.width = 100;
-  shadow.height = 100;
+  shadow.width = w;
+  shadow.height = h;
   shadowContext.filter = "drop-shadow(0px 0px " +  "5px #000000 ) ";
   shadowContext.drawImage(hole, 0, 0);
+  shadowContext.drawImage(hole, 0, 0);
+  shadowContext.drawImage(hole, 0, 0);
+  shadowContext.drawImage(hole, 0, 0);
+  shadowContext.drawImage(hole, 0, 0);
   shadowContext.globalCompositeOperation = "destination-out";
-  // shadowContext.drawImage(hole, -5, -5);
+  shadowContext.drawImage(hole, 0, 0);
+  // document.body.appendChild(shadow);
   
-  document.body.appendChild(shadow);
-  
-  var shadowIn = document.createElement("canvas");
-  var shadowInContext = shadow.getContext("2d");
-  shadowInContext.drawImage(shadow, 0, 0)
-  // drawPiece(shadowContext, 20, 30)
-  // shadowContext.clip()
-  // shadowContext.lineWidth = 0
-  // shadowContext.fillStyle = "tranparent";
-  // shadowContext.stroke()
-  // shadowContext.fill()
-  // shadowContext.globalCompositeOperation = "destination-in";
-  document.body.appendChild(shadowIn);
-  
-  // 第四部截取shadow
+  // 第四部应用shadow
+  ctx.drawImage(shadow, 0, 0)
+  ctx.globalCompositeOperation = "destination-over";
 }
 
 function draw(ctx, x, y, operation) {
-  // ctx.beginPath()
-  // ctx.moveTo(x, y)
-  // ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
-  // ctx.lineTo(x + l, y)
-  // ctx.arc(x + l + r - 2, y + l / 2, r, 1.21 * PI, 2.78 * PI)
-  // ctx.lineTo(x + l, y + l)
-  // ctx.lineTo(x, y + l)
-  // ctx.arc(x + r - 2, y + l / 2, r + 0.4, 2.76 * PI, 1.24 * PI, true)
-  // ctx.lineTo(x, y)
   drawPiece(ctx, x, y)
   ctx.lineWidth = 0.5
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
   ctx.strokeStyle = 'rgba(255, 255, 255, 1)'
   ctx.stroke()
   ctx[operation]()
   ctx.globalCompositeOperation = 'destination-over'
+}
+
+function createCanvas(width, height){
+  
+  var canvas = document.createElement("canvas");
+  canvas.width = width || w;
+  canvas.height = height || h;
+  var canvasContext = canvas.getContext("2d");
+  
+  return canvasContext
+}
+
+function drawBlock(img, ctx, x, y) {
+  // // 第一步 生成 img 容器
+  // let imgCon = document.createElement("canvas");
+  // imgCon.width = w
+  // imgCon.height = h
+  // let imgConCtx = imgCon.getContext("2d");
+  // imgConCtx.drawImage(img, 0, 0, w, h)
+  // const ImageData = imgConCtx.getImageData(x - 3, y - r * 2 - 1, L, L)
+  // // document.body.appendChild(imgCon)
+  //
+  // // 第二步 生成 piece 方块
+  // let pieceCube = document.createElement("canvas");
+  // pieceCube.width = L
+  // pieceCube.height = h
+  // let pieceCubeCtx = pieceCube.getContext("2d");
+  // pieceCubeCtx.putImageData(ImageData, 0, y - r * 2 - 1)
+  //
+  // // pieceCubeCtx.drawImage(img, x, y - r * 2 - 1, L, L, 0, y - r * 2 - 1, L, L)
+  // document.body.appendChild(pieceCube)
+  //
+  // // 第三部 生成 piece
+  // let piece = document.createElement("canvas");
+  // piece.width = L
+  // piece.height = h
+  // let pieceCtx = piece.getContext("2d");
+  // pieceCtx.drawImage(pieceCube, 0, 0)
+  // draw(pieceCtx, 3, y, "clip")
+  // // pieceCtx.lineWidth = 1
+  // // pieceCtx.strokeStyle = 'rgba(0, 0, 0, 1)'
+  // // pieceCtx.stroke()
+  //
+  // document.body.appendChild(piece)
+  
+  
+  // 第二步生成外shadow piece
+  ctx = createCanvas()
+  ctx.canvas.width = L
+  ctx.shadowColor = "black";
+  ctx.shadowBlur = 10;
+  drawPiece(ctx, 3, y)
+  ctx.lineWidth = 1
+  ctx.fillStyle = 'rgba(0, 0, 0, 1)'
+  ctx.strokeStyle = 'rgba(0, 0, 0, 1)'
+  ctx.stroke()
+  ctx.fill()
+  
+  document.body.appendChild(ctx.canvas);
 }
 
 function sum(x, y) {
@@ -226,28 +258,27 @@ export default class SlideVerify {
   
   }
   
+  draw() {
+    // 随机创建滑块的位置
+    this.x = getRandomNumberByRange(L + 10, w - (L + 10))
+    this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
+    // draw(this.blockCtx, this.x, this.y, 'clip')
+    draw(this.canvasCtx, this.x, this.y, 'fill')
+    drawPieceInsideShadow(this.canvasCtx, this.x, this.y)
+  }
   
   initImg() {
     const img = createImg(() => {
       this.draw()
       this.canvasCtx.drawImage(img, 0, 0, w, h)
-      this.blockCtx.drawImage(img, 0, 0, w, h)
-      const y = this.y - r * 2 - 1
-      const ImageData = this.blockCtx.getImageData(this.x - 3, y, L, L)
-      console.log("ImageData", ImageData)
-      this.block.width = L
-      this.blockCtx.putImageData(ImageData, 0, y)
+      // this.blockCtx.drawImage(img, 0, 0, w, h)
+      // const y = this.y - r * 2 - 1
+      // const ImageData = this.blockCtx.getImageData(this.x - 3, y, L, L)
+      // this.block.width = L
+      // this.blockCtx.putImageData(ImageData, 0, y)
+      drawBlock(img, this.blockCtx, this.x, this.y)
     })
     this.img = img
-  }
-  
-  draw() {
-    // 随机创建滑块的位置
-    this.x = getRandomNumberByRange(L + 10, w - (L + 10))
-    this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
-    draw(this.blockCtx, this.x, this.y, 'clip')
-    draw(this.canvasCtx, this.x, this.y, 'fill')
-    drawDev(this.canvasCtx, this.x, this.y)
   }
   
   clean() {
