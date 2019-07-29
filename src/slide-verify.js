@@ -12,6 +12,13 @@ const l = 42, // 滑块边长
 const L = l + r * 2 + 9 // 滑块实际边长
 const isIE = window.navigator.userAgent.indexOf('Trident') > -1
 
+function createCanvas(width, height){
+  var canvas = document.createElement("canvas");
+  canvas.width = width || w;
+  canvas.height = height || h;
+  return canvas.getContext("2d")
+}
+
 function getRandomNumberByRange(start, end) {
   return Math.round(Math.random() * (end - start) + start)
 }
@@ -73,6 +80,7 @@ function drawPiece(ctx, x, y){
   ctx.lineTo(x, y + l)
   ctx.arc(x + r - 2, y + l / 2, r + 0.4, 2.76 * PI, 1.24 * PI, true)
   ctx.lineTo(x, y)
+  ctx.stroke()
 }
 
 function drawPieceInsideShadow(ctx, x, y){
@@ -104,7 +112,6 @@ function drawPieceInsideShadow(ctx, x, y){
   
   drawPiece(holeContext, x, y)
   holeContext.lineWidth = 0
-  // holeContext.strokeStyle = 'rgba(255, 255, 255, 1)'
   holeContext.fillStyle = "tranparent";
   holeContext.stroke()
   holeContext.fill()
@@ -127,44 +134,23 @@ function drawPieceInsideShadow(ctx, x, y){
   
   // 第四部应用shadow
   ctx.drawImage(shadow, 0, 0)
-  ctx.globalCompositeOperation = "destination-over";
-}
-
-function draw(ctx, x, y, operation) {
-  drawPiece(ctx, x, y)
-  // ctx.lineWidth = 0.5
-  // ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
-  // ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
-  ctx.stroke()
-  ctx[operation]()
-  ctx.globalCompositeOperation = 'destination-over'
-}
-
-function createCanvas(width, height){
-  
-  var canvas = document.createElement("canvas");
-  canvas.width = width || w;
-  canvas.height = height || h;
-  var canvasContext = canvas.getContext("2d");
-  
-  return canvasContext
 }
 
 function drawBlock(img, ctx, x, y) {
-  // 第一步 生成 piece 方块
+  // 第一步 生成包含图像的 piece 方块
   ctx.lineWidth = 0.5
-  
   ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
   ctx.strokeStyle = 'rgba(253,255,29,0.7)'
-  draw(ctx, x, y, 'clip')
+  drawPiece(ctx, x, y)
+  ctx.clip()
+  ctx.globalCompositeOperation = 'source-over'
   
-  // this.canvasCtx.drawImage(img, 0, 0, w, h)
+  // 设置图像及边长
   ctx.drawImage(img, 0, 0, w, h)
   const pieceY = y - r * 2 - 1
   const ImageData = ctx.getImageData(x - 3, pieceY, L, L)
   ctx.canvas.width = L
   ctx.putImageData(ImageData, 0, pieceY)
-  
   
   // 第二步生成外shadow piece
   let shaodwCtx = createCanvas()
@@ -180,8 +166,6 @@ function drawBlock(img, ctx, x, y) {
   shaodwCtx.stroke()
   shaodwCtx.fill()
   
-  // document.body.appendChild(shaodwCtx.canvas);
-  
   let compositeCtx = createCanvas()
   compositeCtx.canvas.width = L
   compositeCtx.drawImage(shaodwCtx.canvas, 0, 0)
@@ -189,7 +173,6 @@ function drawBlock(img, ctx, x, y) {
   // document.body.appendChild(compositeCtx.canvas);
   
   ctx.drawImage(compositeCtx.canvas, 0, 0)
-  // ctx.globalCompositeOperation = "source-in"
 }
 
 function sum(x, y) {
@@ -200,26 +183,17 @@ function square(x) {
   return x * x
 }
 
-
 export default class SlideVerify {
   constructor({elementId, onSuccess, onFail, onRefresh}) {
     let conEl = document.getElementById(elementId)
     conEl.innerHTML = Verify({name: 'Timothy'})
     let el = conEl.firstChild
     let childNodes = el.childNodes
-    // el.style.position = 'relative'
-    // el.style.width = w + 'px'
-    // Object.assign(el.style, {
-    //   position: 'relative',
-    //   width: w + 'px',
-    //   margin: '0 auto'
-    // })
     this.el = el
     this.onSuccess = onSuccess
     this.onFail = onFail
     this.onRefresh = onRefresh
     
-    console.log("childNodes", childNodes)
     let canvas = childNodes[0]
     let refreshIcon = childNodes[1]
     let block = childNodes[2]
@@ -247,31 +221,21 @@ export default class SlideVerify {
     
   }
   
-  init = (elementId) => {
-  
-  }
-  
-  draw() {
-    // 随机创建滑块的位置
-    this.x = getRandomNumberByRange(L + 10, w - (L + 10))
-    this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
-    this.canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.35)'
-    this.canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
-    draw(this.canvasCtx, this.x, this.y, 'fill')
-    drawPieceInsideShadow(this.canvasCtx, this.x, this.y)
-  }
-  
   initImg() {
     const img = createImg(() => {
-      this.draw()
-      // draw(this.blockCtx, this.x, this.y, 'clip')
-      //
+      // 随机创建滑块的位置
+      this.x = getRandomNumberByRange(L + 10, w - (L + 10))
+      this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
+  
+      // draw canvas 及 被抠出的 piece 留下的坑
       this.canvasCtx.drawImage(img, 0, 0, w, h)
-      // this.blockCtx.drawImage(img, 0, 0, w, h)
-      // const y = this.y - r * 2 - 1
-      // const ImageData = this.blockCtx.getImageData(this.x - 3, y, L, L)
-      // this.block.width = L
-      // this.blockCtx.putImageData(ImageData, 0, y)
+      this.canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.35)'
+      this.canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+      drawPiece(this.canvasCtx, this.x, this.y)
+      this.canvasCtx.fill()
+      drawPieceInsideShadow(this.canvasCtx, this.x, this.y)
+
+
       drawBlock(img, this.blockCtx, this.x, this.y)
     })
     this.img = img
