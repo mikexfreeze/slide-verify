@@ -151,39 +151,7 @@ function createCanvas(width, height){
 }
 
 function drawBlock(img, ctx, x, y) {
-  
-  
-  // 第一步 生成 img 容器
-  // let imgCon = document.createElement("canvas");
-  // imgCon.width = w
-  // imgCon.height = h
-  // let imgConCtx = imgCon.getContext("2d");
-  // imgConCtx.drawImage(img, 0, 0, w, h)
-  // const ImageData = imgConCtx.getImageData(x - 3, y - r * 2 - 1, L, L)
-  // // document.body.appendChild(imgCon)
-  //
-  // // 第二步 生成 piece 方块
-  // let pieceCube = document.createElement("canvas");
-  // pieceCube.width = L
-  // pieceCube.height = h
-  // let pieceCubeCtx = pieceCube.getContext("2d");
-  // pieceCubeCtx.putImageData(ImageData, 0, y - r * 2 - 1)
-  //
-  // // pieceCubeCtx.drawImage(img, x, y - r * 2 - 1, L, L, 0, y - r * 2 - 1, L, L)
-  // document.body.appendChild(pieceCube)
-  //
-  // // 第三部 生成 piece
-  // let piece = document.createElement("canvas");
-  // piece.width = L
-  // piece.height = h
-  // let pieceCtx = piece.getContext("2d");
-  // pieceCtx.drawImage(pieceCube, 0, 0)
-  // draw(pieceCtx, 3, y, "clip")
-  // // pieceCtx.lineWidth = 1
-  // // pieceCtx.strokeStyle = 'rgba(0, 0, 0, 1)'
-  // // pieceCtx.stroke()
-  //
-  // document.body.appendChild(piece)
+  // 第一步 生成 piece 方块
   
   draw(ctx, x, y, 'clip')
   
@@ -200,6 +168,8 @@ function drawBlock(img, ctx, x, y) {
   shaodwCtx.canvas.width = L
   shaodwCtx.shadowColor = "black";
   shaodwCtx.shadowBlur = 10;
+  ctx.shadowOffsetX = 10;
+  ctx.shadowOffsetY = 10;
   drawPiece(shaodwCtx, 3, y)
   shaodwCtx.lineWidth = 1
   shaodwCtx.fillStyle = 'rgba(0, 0, 0, 1)'
@@ -208,6 +178,15 @@ function drawBlock(img, ctx, x, y) {
   shaodwCtx.fill()
   
   document.body.appendChild(shaodwCtx.canvas);
+  
+  let compositeCtx = createCanvas()
+  compositeCtx.canvas.width = L
+  compositeCtx.drawImage(shaodwCtx.canvas, 0, 0)
+  compositeCtx.drawImage(ctx.canvas, 0, 0)
+  document.body.appendChild(compositeCtx.canvas);
+  
+  ctx.drawImage(compositeCtx.canvas, 0, 0)
+  // ctx.globalCompositeOperation = "source-in"
 }
 
 function sum(x, y) {
