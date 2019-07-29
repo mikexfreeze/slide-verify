@@ -5,11 +5,11 @@ import styles from './main.css'
 const Verify = require('./Verify.pug');
 
 const l = 42, // 滑块边长
-  r = 9, // 滑块半径
+  r = 7.5, // 滑块半径
   w = 310, // canvas宽度
   h = 210, // canvas高度
   PI = Math.PI
-const L = l + r * 2 + 3 // 滑块实际边长
+const L = l + r * 2 + 9 // 滑块实际边长
 const isIE = window.navigator.userAgent.indexOf('Trident') > -1
 
 function getRandomNumberByRange(start, end) {
@@ -132,9 +132,9 @@ function drawPieceInsideShadow(ctx, x, y){
 
 function draw(ctx, x, y, operation) {
   drawPiece(ctx, x, y)
-  ctx.lineWidth = 0.5
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+  // ctx.lineWidth = 0.5
+  // ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
+  // ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
   ctx.stroke()
   ctx[operation]()
   ctx.globalCompositeOperation = 'destination-over'
@@ -152,7 +152,10 @@ function createCanvas(width, height){
 
 function drawBlock(img, ctx, x, y) {
   // 第一步 生成 piece 方块
+  ctx.lineWidth = 0.5
   
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
+  ctx.strokeStyle = 'rgba(253,255,29,0.7)'
   draw(ctx, x, y, 'clip')
   
   // this.canvasCtx.drawImage(img, 0, 0, w, h)
@@ -167,9 +170,9 @@ function drawBlock(img, ctx, x, y) {
   let shaodwCtx = createCanvas()
   shaodwCtx.canvas.width = L
   shaodwCtx.shadowColor = "black";
-  shaodwCtx.shadowBlur = 10;
-  ctx.shadowOffsetX = 10;
-  ctx.shadowOffsetY = 10;
+  shaodwCtx.shadowBlur = 6;
+  shaodwCtx.shadowOffsetX = 2;
+  shaodwCtx.shadowOffsetY = 5;
   drawPiece(shaodwCtx, 3, y)
   shaodwCtx.lineWidth = 1
   shaodwCtx.fillStyle = 'rgba(0, 0, 0, 1)'
@@ -252,6 +255,8 @@ export default class SlideVerify {
     // 随机创建滑块的位置
     this.x = getRandomNumberByRange(L + 10, w - (L + 10))
     this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
+    this.canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.35)'
+    this.canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
     draw(this.canvasCtx, this.x, this.y, 'fill')
     drawPieceInsideShadow(this.canvasCtx, this.x, this.y)
   }
