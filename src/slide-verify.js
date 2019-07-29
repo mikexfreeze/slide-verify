@@ -151,7 +151,9 @@ function createCanvas(width, height){
 }
 
 function drawBlock(img, ctx, x, y) {
-  // // 第一步 生成 img 容器
+  
+  
+  // 第一步 生成 img 容器
   // let imgCon = document.createElement("canvas");
   // imgCon.width = w
   // imgCon.height = h
@@ -183,20 +185,29 @@ function drawBlock(img, ctx, x, y) {
   //
   // document.body.appendChild(piece)
   
+  draw(ctx, x, y, 'clip')
+  
+  // this.canvasCtx.drawImage(img, 0, 0, w, h)
+  ctx.drawImage(img, 0, 0, w, h)
+  const pieceY = y - r * 2 - 1
+  const ImageData = ctx.getImageData(x - 3, pieceY, L, L)
+  ctx.canvas.width = L
+  ctx.putImageData(ImageData, 0, pieceY)
+  
   
   // 第二步生成外shadow piece
-  ctx = createCanvas()
-  ctx.canvas.width = L
-  ctx.shadowColor = "black";
-  ctx.shadowBlur = 10;
-  drawPiece(ctx, 3, y)
-  ctx.lineWidth = 1
-  ctx.fillStyle = 'rgba(0, 0, 0, 1)'
-  ctx.strokeStyle = 'rgba(0, 0, 0, 1)'
-  ctx.stroke()
-  ctx.fill()
+  let shaodwCtx = createCanvas()
+  shaodwCtx.canvas.width = L
+  shaodwCtx.shadowColor = "black";
+  shaodwCtx.shadowBlur = 10;
+  drawPiece(shaodwCtx, 3, y)
+  shaodwCtx.lineWidth = 1
+  shaodwCtx.fillStyle = 'rgba(0, 0, 0, 1)'
+  shaodwCtx.strokeStyle = 'rgba(0, 0, 0, 1)'
+  shaodwCtx.stroke()
+  shaodwCtx.fill()
   
-  document.body.appendChild(ctx.canvas);
+  document.body.appendChild(shaodwCtx.canvas);
 }
 
 function sum(x, y) {
@@ -262,7 +273,6 @@ export default class SlideVerify {
     // 随机创建滑块的位置
     this.x = getRandomNumberByRange(L + 10, w - (L + 10))
     this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
-    // draw(this.blockCtx, this.x, this.y, 'clip')
     draw(this.canvasCtx, this.x, this.y, 'fill')
     drawPieceInsideShadow(this.canvasCtx, this.x, this.y)
   }
@@ -270,6 +280,8 @@ export default class SlideVerify {
   initImg() {
     const img = createImg(() => {
       this.draw()
+      // draw(this.blockCtx, this.x, this.y, 'clip')
+      //
       this.canvasCtx.drawImage(img, 0, 0, w, h)
       // this.blockCtx.drawImage(img, 0, 0, w, h)
       // const y = this.y - r * 2 - 1
