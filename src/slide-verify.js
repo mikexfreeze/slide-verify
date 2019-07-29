@@ -64,7 +64,7 @@ function getRandomImgSrc() {
 }
 
 function drawPiece(ctx, x, y){
-  // ctx.beginPath()
+  ctx.beginPath()
   ctx.moveTo(x, y)
   ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
   ctx.lineTo(x + l, y)
@@ -180,13 +180,13 @@ function drawBlock(img, ctx, x, y) {
   shaodwCtx.stroke()
   shaodwCtx.fill()
   
-  document.body.appendChild(shaodwCtx.canvas);
+  // document.body.appendChild(shaodwCtx.canvas);
   
   let compositeCtx = createCanvas()
   compositeCtx.canvas.width = L
   compositeCtx.drawImage(shaodwCtx.canvas, 0, 0)
   compositeCtx.drawImage(ctx.canvas, 0, 0)
-  document.body.appendChild(compositeCtx.canvas);
+  // document.body.appendChild(compositeCtx.canvas);
   
   ctx.drawImage(compositeCtx.canvas, 0, 0)
   // ctx.globalCompositeOperation = "source-in"
