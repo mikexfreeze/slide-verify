@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = merge(common, {
+  entry: ["./example/index.js"],
   mode: 'production',
   devtool: 'source-map',
   output: {
