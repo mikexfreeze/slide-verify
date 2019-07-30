@@ -32,7 +32,12 @@ module.exports = {
       }, {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
-          'file-loader'
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 30720
+            }
+          }
         ]
       }
     ]
