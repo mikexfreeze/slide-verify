@@ -2,6 +2,9 @@
 
 > 滑动条验证插件
 
+## Live Demo
+
+[live demo](https://blog.duandiwang.com/slide-verify/)
 
 ## Install
 ```shell
@@ -25,10 +28,6 @@ let Slide = new SlideVerify({
 </body>
 ```
 elementId 为挂载点的 dom id
-
-## Live Demo
-
-[live demo](https://blog.duandiwang.com/slide-verify/)
 
 ## Featrue
 
