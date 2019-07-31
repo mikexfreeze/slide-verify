@@ -28,6 +28,8 @@ elementId 为挂载点的 dom id
 
 ## Live Demo
 
+[live demo](https://blog.duandiwang.com/slide-verify/)
+
 ## Featrue
 
 1. css-module developed
