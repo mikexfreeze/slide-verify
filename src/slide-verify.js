@@ -67,7 +67,7 @@ function removeClass(tag, className) {
 
 function getRandomImgSrc() {
   // return '//picsum.photos/300/150/?image=' + getRandomNumberByRange(0, 1084)
-  return ImgArray[`Img${getRandomNumberByRange(7, 7.1)}`]
+  return ImgArray[`Img${getRandomNumberByRange(0, 4)}`]
 }
 
 function drawPiece(ctx, x, y){
@@ -224,7 +224,7 @@ export default class SlideVerify {
   initImg() {
     const img = createImg(() => {
       // 随机创建滑块的位置
-      this.x = getRandomNumberByRange(L + 10, w - (L + 10))
+      this.x = getRandomNumberByRange(L + 70, w - (L + 10))
       this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
   
       // draw canvas 及 被抠出的 piece 留下的坑
