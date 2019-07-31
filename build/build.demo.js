@@ -14,7 +14,7 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, '../doc'),
+    path: path.resolve(__dirname, '../docs'),
     filename: '[name].js',
     publicPath: '',
   },
