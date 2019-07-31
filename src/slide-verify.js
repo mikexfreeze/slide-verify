@@ -1,6 +1,7 @@
 /* create by Micheal Xiao 2019/7/19 15:56 */
 import * as ImgArray from './img'
 import styles from './main.css'
+import './libs/fontawesome'
 
 const Verify = require('./Verify.pug');
 
@@ -270,11 +271,12 @@ export default class SlideVerify {
       const moveY = eventY - originY
       if (moveX < 0 || moveX + 38 >= w) return false
       this.slider.style.left = moveX + 'px'
-      const blockLeft = (w - 40 - 20) / (w - 40) * moveX
+      // const blockLeft = (w - 40 - 20) / (w - 40) * moveX
+      const blockLeft = moveX
       this.block.style.left = blockLeft + 'px'
       
       addClass(this.sliderContainer, styles.sliderContainer_active)
-      this.sliderMask.style.width = moveX + 'px'
+      this.sliderMask.style.width = moveX + 12 + 'px'
       trail.push(moveY)
     }
     

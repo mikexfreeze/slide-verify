@@ -12,19 +12,19 @@
 .sliderContainer {
     position: relative;
     text-align: center;
-    width: 310px;
+    width: 315px;
     height: 40px;
     line-height: 35px;
-    /*margin-top: 15px;*/
+    margin-top: 13px;
+    margin-left: -3px;
     background: #DFE1E2;
     color: #45494c;
+    border-radius: 20px;
     border: 1px solid #e4e7eb;
     box-sizing: border-box;
 }
 
 .sliderContainer_active .slider {
-    height: 38px;
-    top: -1px;
     border: 1px solid #1991FA;
 }
 
@@ -34,25 +34,20 @@
 }
 
 .sliderContainer_success .slider {
-    height: 38px;
-    top: -1px;
     border: 1px solid #52CCBA;
     background-color: #52CCBA !important;
 }
 
 .sliderContainer_success .sliderMask {
-    height: 38px;
     border: 1px solid #52CCBA;
     background-color: #D2F4EF;
 }
 
 .sliderContainer_success .sliderIcon {
-    background-position: 0 0 !important;
+    color: #ffffff;
 }
 
 .sliderContainer_fail .slider {
-    height: 38px;
-    top: -1px;
     border: 1px solid #f57a7a;
     background-color: #f57a7a !important;
 }
@@ -64,8 +59,7 @@
 }
 
 .sliderContainer_fail .sliderIcon {
-    top: 14px;
-    background-position: 0 -82px !important;
+    color: #ffffff;
 }
 
 .sliderContainer_active .sliderText, .sliderContainer_success .sliderText, .sliderContainer_fail .sliderText {
@@ -82,50 +76,60 @@
     top: 0;
     height: 40px;
     border: 0 solid #1991FA;
+    border-top-left-radius: 20px;
+    -webkit-border-top-left-radius: 20px;
+    -moz-border-radius-topleft: 20px;
+    border-bottom-left-radius: 20px;
+    -webkit-border-bottom-left-radius: 20px;
+    -moz-border-radius-bottomleft: 20px;
+
     background: #D1E9FE;
 }
 
 .slider {
     position: absolute;
-    top: -1px;
+    top: -9px;
     left: 0;
-    width: 40px;
-    height: 40px;
+    width: 56px;
+    height: 56px;
     background: #fff;
+    border-radius: 33px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
     transition: background .2s linear;
     cursor: grab;
 }
 
 .slider:active {
+    color: #ffffff;
     cursor: grabbing;
 }
 
 .slider:hover {
+    color: #ffffff;
     background: #1991FA;
 }
 
 .slider:hover .sliderIcon {
-    background-position: 0 -13px;
+    color: #ffffff;
 }
 
 .sliderIcon {
-    position: absolute;
-    top: 15px;
-    left: 13px;
-    width: 14px;
-    height: 12px;
-    background: url(http://cstaticdun.126.net//2.6.3/images/icon_light.f13cff3.png) 0 -26px;
-    background-size: 34px 471px;
+    position: relative;
+    line-height: 56px;
+    font-size: 27px;
+    color: #1E90FF
 }
 
 .refreshIcon {
     position: absolute;
     right: 0;
     top: 0;
-    width: 34px;
-    height: 34px;
+    color: #fff;
+    font-size: 1.5rem;
+    width: 1.7rem;
     cursor: pointer;
-    background: url(http://cstaticdun.126.net//2.6.3/images/icon_light.f13cff3.png) 0 -437px;
-    background-size: 34px 471px;
+    filter: drop-shadow(1px 1px 1px black);
 }
+
+/*global*/
+
