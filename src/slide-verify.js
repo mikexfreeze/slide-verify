@@ -187,7 +187,7 @@ function square(x) {
 export default class SlideVerify {
   constructor({elementId, onSuccess, onFail, onRefresh}) {
     let conEl = document.getElementById(elementId)
-    conEl.innerHTML = Verify({name: 'Timothy'})
+    conEl.innerHTML = Verify({status: 'normal'})
     let el = conEl.firstChild
     let childNodes = el.childNodes
     this.el = el
@@ -290,6 +290,7 @@ export default class SlideVerify {
       const {spliced, verified} = this.verify()
       if (spliced) {
         if (verified) {
+          this.sliderIcon.childNodes[0].innerHTML = `<i class="fas fa-check" aria-hidden="true"></i>`
           addClass(this.sliderContainer, styles.sliderContainer_success)
           typeof this.onSuccess === 'function' && this.onSuccess()
         } else {
@@ -298,6 +299,7 @@ export default class SlideVerify {
           this.reset()
         }
       } else {
+        this.sliderIcon.childNodes[0].innerHTML = `<i class="fas fa-times" aria-hidden="true"></i>`
         addClass(this.sliderContainer, styles.sliderContainer_fail)
         typeof this.onFail === 'function' && this.onFail()
         setTimeout(() => {
@@ -329,6 +331,7 @@ export default class SlideVerify {
   
   reset() {
     this.sliderContainer.className = styles.sliderContainer
+    this.sliderIcon.childNodes[0].innerHTML = `<i class="fas fa-bars fa-rotate-90" aria-hidden="true"></i>`
     this.slider.style.left = 0
     this.block.style.left = 0
     this.sliderMask.style.width = 0
