@@ -6,7 +6,7 @@ const config = require('../config')
 const webpack = require('webpack')
 
 module.exports = merge(common, {
-  mode: 'development',
+  mode: 'production',
   devtool: 'source-map',
   entry: ["./src/slide-verify.js"],
   output: {

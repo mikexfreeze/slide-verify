@@ -1,6 +1,6 @@
 {
   "name": "slide-verify",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "front-end slide verify",
   "main": "dist/slide-verify.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "*.css",
     "*.less",
     "*.scss",
-    "fontawesome.js"
+    "./src/libs/fontawesome.js"
   ],
   "repository": {
     "type": "git",
