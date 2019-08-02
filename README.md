@@ -6,6 +6,12 @@
 
 ## 在线Demo
 
+<p align="center">
+  <a href="https://blog.duandiwang.com/slide-verify/">
+    <img width="310" src="http://pvlp7z12t.bkt.clouddn.com/slide-verify-exmaple-01.png">
+  </a>
+</p>
+
 [在线Demo](https://blog.duandiwang.com/slide-verify/)
 
 ## 安装
