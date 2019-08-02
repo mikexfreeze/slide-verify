@@ -1,12 +1,13 @@
 {
   "name": "slide-verify",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "front-end slide verify",
   "main": "dist/slide-verify.js",
   "scripts": {
     "start": "webpack-dev-server --config build/webpack.dev.js --progress",
     "dist": "webpack --config build/webpack.prod.js",
-    "bdemo": "npm run dist && webpack --config build/build.demo.js",
+    "demo": "webpack --config build/build.demo.js",
+    "distdemo": "npm run dist && webpack --config build/build.demo.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "browserslist": [

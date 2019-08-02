@@ -6,7 +6,8 @@ const config = require('../config')
 const webpack = require('webpack')
 
 module.exports = merge(common, {
-  mode: 'production',
+  mode: 'development',
+  devtool: 'source-map',
   entry: ["./src/slide-verify.js"],
   output: {
     libraryTarget: 'umd',
