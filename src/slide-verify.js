@@ -185,9 +185,15 @@ function square(x) {
 }
 
 export default class SlideVerify {
-  constructor({elementId, onSuccess, onFail, onRefresh}) {
+  constructor({elementId, onSuccess, onFail, onRefresh, lang}) {
+    let intlText = {}
+    if(lang && lang === 'en'){
+      intlText = {slideTips: 'slide to right'}
+    }else{
+      intlText = {slideTips: '向右滑动填充拼图'}
+    }
     let conEl = document.getElementById(elementId)
-    conEl.innerHTML = Verify({status: 'normal'})
+    conEl.innerHTML = Verify({slideTips: intlText.slideTips})
     let el = conEl.firstChild
     let childNodes = el.childNodes
     this.el = el

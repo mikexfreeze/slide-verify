@@ -11,8 +11,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
   entry: ["./example/index.js"],
-  mode: 'production',
-  devtool: 'source-map',
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, '../docs'),
     filename: '[name].js',
@@ -20,7 +19,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(config.build.env)
+      'process.env': JSON.stringify(config.dev.env)
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({ // html 模板插件，不指定模板会自动创建模板

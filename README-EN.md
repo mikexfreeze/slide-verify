@@ -1,19 +1,17 @@
 # slide-verify
 
-简体中文 | [English](./README-EN.md)
+> js slide captcha plugin
 
-> 滑动条验证插件
+## Live Demo
 
-## 在线Demo
+[live demo](https://blog.duandiwang.com/slide-verify/)
 
-[在线Demo](https://blog.duandiwang.com/slide-verify/)
-
-## 安装
+## Install
 ```shell
 npm install slide-verify -S
 ```
 
-## 快速开始
+## quick start
 ```js
 import SlideVerify from '../dist/slide-verify'
 
@@ -22,6 +20,7 @@ let Slide = new SlideVerify({
   onSuccess: () => {console.log("success")},
   onFail: () => {console.log("fail")},
   onRefresh: () => {console.log("refresh")},
+  lang: 'en'
 })
 ```
 ```html
@@ -29,12 +28,12 @@ let Slide = new SlideVerify({
     <div id="root"></div>
 </body>
 ```
-elementId 为挂载点的 dom id
+elementId for dom id
 
-## 特性
+## Featrue
 
-1. 使用 css-module 开发，没有 css 污染困扰 
-2. UMD 方式打包，多种引入方式（未测试其他方式）
+1. css-module developed
+2. UMD
 
 
 

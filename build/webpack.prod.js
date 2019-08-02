@@ -6,12 +6,13 @@ const config = require('../config')
 const webpack = require('webpack')
 
 module.exports = merge(common, {
+  mode: 'production',
   entry: ["./src/slide-verify.js"],
   output: {
     libraryTarget: 'umd',
     filename: 'slide-verify.js',
+    publicPath: '',
   },
-  mode: 'production',
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
