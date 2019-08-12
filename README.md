@@ -24,10 +24,11 @@ npm install slide-verify -S
 import SlideVerify from '../dist/slide-verify'
 
 let Slide = new SlideVerify({
-  elementId: "root",
-  onSuccess: () => {console.log("success")},
-  onFail: () => {console.log("fail")},
-  onRefresh: () => {console.log("refresh")},
+  elementId: "root", // DOM挂载点
+  onSuccess: () => {console.log("success")}, // 成功回调
+  onFail: () => {console.log("fail")}, // 失败回调
+  onRefresh: () => {console.log("refresh")}, // 刷新回调
+  photo: 'www.xxx.com/img' // 背景图片地址
 })
 ```
 ```html
@@ -36,6 +37,36 @@ let Slide = new SlideVerify({
 </body>
 ```
 elementId 为挂载点的 dom id
+
+## api 文档
+```js
+new SlideVerify(option)
+```
+
+### elementId
+
+`option.elementId` 为挂载点的 dom id
+
+
+### photo
+
+type string 或 array
+
+string 为图片网络地址
+
+array 为图片地址的集合，slide-verify会随机调用其中的图片，并在刷新时更新。
+
+### onSuccess
+
+用户通过验证的回调函数
+
+### onFail
+
+验证失败的回调函数
+
+### onRefresh
+
+用户刷新的回调
 
 ## 特性
 

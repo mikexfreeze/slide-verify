@@ -24,7 +24,7 @@ function getRandomNumberByRange(start, end) {
   return Math.round(Math.random() * (end - start) + start)
 }
 
-function createImg(onload) {
+function createImg(onload, src) {
   const img = new Image()
   img.crossOrigin = "Anonymous"
   img.onload = onload
@@ -47,10 +47,26 @@ function createImg(onload) {
       xhr.send()
     } else img.src = src
   }
+  let setSrc = ''
+  if(src){
+    // 如果用户设置图片则使用
+    if(typeof src === 'string'){
+      setSrc = src
+    }else if(Array.isArray(src)){
+      setSrc = src[getRandomNumberByRange(0, src.length - 1)]
+    }
+  }else{
+    setSrc = getRandomImgSrc()
+  }
+  img.setSrc(setSrc)
   
-  img.setSrc(getRandomImgSrc())
   return img
 }
+
+function getRandomImgSrc() {
+  return ImgArray[`Img${getRandomNumberByRange(0, 4)}`]
+}
+
 
 function createElement(tagName, className) {
   const elment = document.createElement(tagName)
@@ -66,10 +82,6 @@ function removeClass(tag, className) {
   tag.classList.remove(className)
 }
 
-function getRandomImgSrc() {
-  // return '//picsum.photos/300/150/?image=' + getRandomNumberByRange(0, 1084)
-  return ImgArray[`Img${getRandomNumberByRange(0, 4)}`]
-}
 
 function drawPiece(ctx, x, y){
   ctx.beginPath()
@@ -185,7 +197,7 @@ function square(x) {
 }
 
 export default class SlideVerify {
-  constructor({elementId, onSuccess, onFail, onRefresh, lang}) {
+  constructor({elementId, onSuccess, onFail, onRefresh, lang, photo}) {
     let intlText = {}
     if(lang && lang === 'en'){
       intlText = {slideTips: 'slide to right'}
@@ -200,6 +212,7 @@ export default class SlideVerify {
     this.onSuccess = onSuccess
     this.onFail = onFail
     this.onRefresh = onRefresh
+    this.photo = photo
     
     let canvas = childNodes[0]
     let refreshIcon = childNodes[1]
@@ -244,7 +257,7 @@ export default class SlideVerify {
 
 
       drawBlock(img, this.blockCtx, this.x, this.y)
-    })
+    }, this.photo)
     this.img = img
   }
   
@@ -342,6 +355,6 @@ export default class SlideVerify {
     this.block.style.left = 0
     this.sliderMask.style.width = 0
     this.clean()
-    this.img.setSrc(getRandomImgSrc())
+    this.initImg()
   }
 }
