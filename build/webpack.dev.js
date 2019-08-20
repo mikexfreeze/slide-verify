@@ -6,6 +6,7 @@ const config = require('../config')
 const webpack = require('webpack')
 
 module.exports = merge(common, {
+  entry: ["./src/index.js"],
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {

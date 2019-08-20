@@ -358,3 +358,5 @@ export default class SlideVerify {
     this.initImg()
   }
 }
+
+window.SlideVerify = SlideVerify

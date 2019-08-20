@@ -38,6 +38,25 @@ let Slide = new SlideVerify({
 ```
 elementId 为挂载点的 dom id
 
+### 外部引入方式
+
+```html
+<head>
+    <script src="../node_modules/slide-verify/dist/slide-verify.js"></script>
+</head>
+<body>
+   <div id="root"></div>
+   <script>
+     var Slide = new SlideVerify({
+       elementId: "root",
+       onSuccess: () => {console.log("success")},
+       onFail: () => {console.log("fail")},
+       onRefresh: () => {console.log("refresh")},
+     })
+   </script>
+</body>
+```
+
 ## api 文档
 ```js
 new SlideVerify(option)

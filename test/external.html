@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>external test</title>
+    <script src="../dist/slide-verify.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  console.log(SlideVerify)
+  let Slide = new SlideVerify({
+    elementId: "root",
+    onSuccess: () => {console.log("success")},
+    onFail: () => {console.log("fail")},
+    onRefresh: () => {console.log("refresh")},
+  })
+</script>
+</body>
+</html>
