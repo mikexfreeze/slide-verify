@@ -89,8 +89,8 @@ array 为图片地址的集合，slide-verify会随机调用其中的图片，�
 
 ## 特性
 
-1. 使用 css-module 开发，没有 css 污染困扰 
-2. UMD 方式打包，多种引入方式（未测试其他方式）
+1. 使用 css-module 开发，放心使用，没有 css 污染困扰
+2. UMD 方式打包，多种引入方式（external、es6）
 
 
 
