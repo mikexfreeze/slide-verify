@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const config = require('../config')
 var path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -22,6 +24,9 @@ module.exports = merge(common, {
       'process.env': JSON.stringify(config.dev.env)
     }),
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([ // copy public 文件夹至 dist
+      {from: 'example/public', to: 'public'}
+    ]),
     new HtmlWebpackPlugin({ // html 模板插件，不指定模板会自动创建模板
       chunksSortMode: 'none',
       template: 'src/index.html',

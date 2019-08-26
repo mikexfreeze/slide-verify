@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://blog.duandiwang.com/slide-verify/">
-    <img width="310" src="http://pvlp7z12t.bkt.clouddn.com/slide-verify-exmaple-01.png">
+    <img width="310" src="https://blog.duandiwang.com/slide-verify/public/slide-verify-exmaple-01.png">
   </a>
 </p>
 
