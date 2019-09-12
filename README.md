@@ -94,3 +94,11 @@ array 为图片地址的集合，slide-verify会随机调用其中的图片，�
 
 
 
+## 感谢 Contribution
+
+此项目参考 [canvas滑动验证码](https://github.com/yeild/jigsaw)
+
+
+
+
+

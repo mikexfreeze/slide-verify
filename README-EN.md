@@ -35,5 +35,9 @@ elementId for dom id
 1. css-module developed
 2. UMD
 
+## Contribution
+
+This project refers to the project [canvas滑动验证码](https://github.com/yeild/jigsaw)
+
 
 
