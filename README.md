@@ -70,8 +70,8 @@ new SlideVerify(option)
 elementId | string | *null* | 挂载点的 dom id
 photo | string or array | *null* | 背景图片url 或 背景图片url组成的数组
 onSuccess | function | *null* | 验证通过时回调此函数
-onFail function | *null* | 验证失败时回调此函数
-onRefresh function | *null* | 点击重新加载图标时回调此函数
+onFail | function | *null* | 验证失败时回调此函数
+onRefresh | function | *null* | 点击重新加载图标时回调此函数
 
 ## 特性
 
