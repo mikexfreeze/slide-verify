@@ -57,42 +57,26 @@ elementId 为挂载点的 dom id
 </body>
 ```
 
-## api 文档
+## api
+
 ```js
 new SlideVerify(option)
 ```
 
-### elementId
+### Options
 
-`option.elementId` 为挂载点的 dom id
-
-
-### photo
-
-type string 或 array
-
-string 为图片网络地址
-
-array 为图片地址的集合，slide-verify会随机调用其中的图片，并在刷新时更新。
-
-### onSuccess
-
-用户通过验证的回调函数
-
-### onFail
-
-验证失败的回调函数
-
-### onRefresh
-
-用户刷新的回调
+名称 | 类型 | 默认值 | 说明 |
+---|---|---|---
+elementId | string | *null* | 挂载点的 dom id
+photo | string or array | *null* | 背景图片url 或 背景图片url组成的数组
+onSuccess | function | *null* | 验证通过时回调此函数
+onFail function | *null* | 验证失败时回调此函数
+onRefresh function | *null* | 点击重新加载图标时回调此函数
 
 ## 特性
 
 1. 使用 css-module 开发，放心使用，没有 css 污染困扰
 2. UMD 方式打包，多种引入方式（external、es6）
-
-
 
 ## 感谢 Contribution
 
