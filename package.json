@@ -1,6 +1,6 @@
 {
   "name": "slide-verify",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "front-end slide verify",
   "main": "dist/slide-verify.js",
   "scripts": {
@@ -49,7 +49,7 @@
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^6.1.0",
     "css-loader": "^3.1.0",
     "file-loader": "^4.1.0",
     "html-webpack-plugin": "^3.2.0",

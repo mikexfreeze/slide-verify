@@ -24,9 +24,11 @@ module.exports = merge(common, {
       'process.env': JSON.stringify(config.dev.env)
     }),
     new CleanWebpackPlugin(),
-    new CopyWebpackPlugin([ // copy public 文件夹至 dist
-      {from: 'example/public', to: 'public'}
-    ]),
+    new CopyWebpackPlugin({
+      patterns:[ // copy public 文件夹至 dist
+        {from: 'example/public', to: 'public'}
+      ]
+    }),
     new HtmlWebpackPlugin({ // html 模板插件，不指定模板会自动创建模板
       chunksSortMode: 'none',
       template: 'src/index.html',
