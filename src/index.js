@@ -7,6 +7,4 @@ let Slide = new SlideVerify({
   onSuccess: () => {console.log("success")},
   onFail: () => {console.log("fail")},
   onRefresh: () => {console.log("refresh")},
-  // photo: 'https://picsum.photos/310/210'
-  // photo: ['https://picsum.photos/310/210', 'https://picsum.photos/310/210', 'https://picsum.photos/310/210']
 })

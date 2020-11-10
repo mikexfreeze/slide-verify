@@ -105,7 +105,7 @@ eval("!function(e,t){if(true)module.exports=t();else { var i, n; }}(window,(func
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _dist_slide_verify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dist/slide-verify */ \"./dist/slide-verify.js\");\n/* harmony import */ var _dist_slide_verify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_dist_slide_verify__WEBPACK_IMPORTED_MODULE_0__);\n/* create by Micheal Xiao 2019/7/30 10:56 */\r\n\r\n\r\nlet Slide = new _dist_slide_verify__WEBPACK_IMPORTED_MODULE_0___default.a({\r\n  elementId: \"root\",\r\n  onSuccess: () => {console.log(\"success\")},\r\n  onFail: () => {console.log(\"fail\")},\r\n  onRefresh: () => {console.log(\"refresh\")},\r\n})\r\n\n\n//# sourceURL=webpack:///./example/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _dist_slide_verify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dist/slide-verify */ \"./dist/slide-verify.js\");\n/* harmony import */ var _dist_slide_verify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_dist_slide_verify__WEBPACK_IMPORTED_MODULE_0__);\n/* create by Micheal Xiao 2019/7/30 10:56 */\n\n\nlet Slide = new _dist_slide_verify__WEBPACK_IMPORTED_MODULE_0___default.a({\n  elementId: \"root\",\n  onSuccess: () => {console.log(\"success\")},\n  onFail: () => {console.log(\"fail\")},\n  onRefresh: () => {console.log(\"refresh\")},\n})\n\n\n//# sourceURL=webpack:///./example/index.js?");
 
 /***/ }),
 
