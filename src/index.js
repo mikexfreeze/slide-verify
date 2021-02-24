@@ -2,11 +2,9 @@
 import SlideVerify from './slide-verify'
 
 
-let Slide = new SlideVerify({
+const Slide = new SlideVerify({
   elementId: "root",
   onSuccess: () => {console.log("success")},
   onFail: () => {console.log("fail")},
   onRefresh: () => {console.log("refresh")},
-  // photo: 'https://picsum.photos/310/210'
-  // photo: ['https://picsum.photos/310/210', 'https://picsum.photos/310/210', 'https://picsum.photos/310/210']
 })

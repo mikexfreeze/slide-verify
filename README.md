@@ -23,7 +23,7 @@ npm install slide-verify -S
 ```js
 import SlideVerify from 'slide-verify'
 
-let Slide = new SlideVerify({
+const Slide = new SlideVerify({
   elementId: "root", // DOM挂载点
   onSuccess: () => {console.log("success")}, // 成功回调
   onFail: () => {console.log("fail")}, // 失败回调
@@ -69,6 +69,7 @@ new SlideVerify(option)
 ---|---|---|---
 elementId | string | *null* | 挂载点的 dom id
 photo | string or array | *null* | 背景图片url 或 背景图片url组成的数组
+source | array | *null* | [x, y, width, height] 仅在设置 photo 之后生效，截取给定图片。x,y 设置截取的横纵坐标起始点，width, height 设置截取的宽度和高度，[举例](https://github.com/mikexfreeze/slide-verify/issues/4#issuecomment-727855481)
 onSuccess | function | *null* | 验证通过时回调此函数
 onFail | function | *null* | 验证失败时回调此函数
 onRefresh | function | *null* | 点击重新加载图标时回调此函数

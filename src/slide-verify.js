@@ -97,7 +97,7 @@ function drawPiece(ctx, x, y){
 }
 
 function drawPieceInsideShadow(ctx, x, y){
-  // 第一步生成一个piece图形模板
+  // 第一步生成一个 piece 图形模板
   let piece = document.createElement("canvas");
   piece.width = w
   piece.height = h
@@ -111,7 +111,7 @@ function drawPieceInsideShadow(ctx, x, y){
   pieceCtx["clip"]()
   // document.body.appendChild(piece);
   
-  // 第二部生成piece外围黑边准备用于内投影
+  // 第二步生成 piece 外围黑边准备用于内投影
   var hole = document.createElement("canvas");
   var holeContext = hole.getContext("2d");
   hole.width = w
@@ -125,27 +125,23 @@ function drawPieceInsideShadow(ctx, x, y){
   
   drawPiece(holeContext, x, y)
   holeContext.lineWidth = 0
-  holeContext.fillStyle = "tranparent";
-  holeContext.stroke()
   holeContext.fill()
-  // document.body.appendChild(hole);
   
-  // 第三部生成内shadow
+  // 第三步生成内shadow
   var shadow = document.createElement("canvas");
   var shadowContext = shadow.getContext("2d");
   shadow.width = w;
   shadow.height = h;
   shadowContext.filter = "drop-shadow(0px 0px " +  "5px #000000 ) ";
-  shadowContext.drawImage(hole, 0, 0);
-  shadowContext.drawImage(hole, 0, 0);
-  shadowContext.drawImage(hole, 0, 0);
-  shadowContext.drawImage(hole, 0, 0);
-  shadowContext.drawImage(hole, 0, 0);
+  
+  // 默认 source-over 模式下叠加阴影，destination-out 模式...
+  for (let i = 0; i < 4; i++) {
+    shadowContext.drawImage(hole, 0, 0);
+  }
   shadowContext.globalCompositeOperation = "destination-out";
   shadowContext.drawImage(hole, 0, 0);
-  // document.body.appendChild(shadow);
   
-  // 第四部应用shadow
+  // 第四步应用shadow
   ctx.drawImage(shadow, 0, 0)
 }
 
@@ -197,7 +193,7 @@ function square(x) {
 }
 
 export default class SlideVerify {
-  constructor({elementId, onSuccess, onFail, onRefresh, lang, photo}) {
+  constructor({elementId, onSuccess, onFail, onRefresh, lang, photo, source}) {
     let intlText = {}
     if(lang && lang === 'en'){
       intlText = {slideTips: 'slide to right'}
@@ -213,6 +209,9 @@ export default class SlideVerify {
     this.onFail = onFail
     this.onRefresh = onRefresh
     this.photo = photo
+    if(photo){
+      this.source = source
+    }
     
     let canvas = childNodes[0]
     let refreshIcon = childNodes[1]
@@ -248,7 +247,11 @@ export default class SlideVerify {
       this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
   
       // draw canvas 及 被抠出的 piece 留下的坑
-      this.canvasCtx.drawImage(img, 0, 0, w, h)
+      if(this.source){
+        this.canvasCtx.drawImage(img, ...this.source, 0, 0, w, h)
+      }else{
+        this.canvasCtx.drawImage(img, 0, 0, w, h)
+      }
       this.canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.35)'
       this.canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
       drawPiece(this.canvasCtx, this.x, this.y)
