@@ -21,7 +21,7 @@ npm install slide-verify -S
 
 ## 快速开始
 ```js
-import SlideVerify from '../dist/slide-verify'
+import SlideVerify from 'slide-verify'
 
 let Slide = new SlideVerify({
   elementId: "root", // DOM挂载点
