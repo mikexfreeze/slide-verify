@@ -10,10 +10,16 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.js$/,
         include: path.resolve(__dirname, '../src'),
         use: 'babel-loader'
-      }, {
+      }, 
+      {
         test: /\.css$/,
         use: [
           {loader: "style-loader"},
@@ -25,10 +31,12 @@ module.exports = {
             }
           }
         ]
-      }, {
+      }, 
+      {
         test: /\.pug$/,
         use: ["pug-loader"]
-      }, {
+      }, 
+      {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
           {
@@ -40,6 +48,9 @@ module.exports = {
         ]
       }
     ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [
     new WebpackBar(), // 编译进度条组件
