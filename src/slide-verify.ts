@@ -15,18 +15,18 @@ const l = 42, // 滑块边长
 const L = l + r * 2 + 9 // 滑块实际边长
 const isIE = window.navigator.userAgent.indexOf('Trident') > -1
 
-function createCanvas(width, height){
+function createCanvas(width: number | undefined, height: number | undefined){
   var canvas = document.createElement("canvas");
   canvas.width = width || w;
   canvas.height = height || h;
   return canvas.getContext("2d")
 }
 
-function getRandomNumberByRange(start, end) {
+function getRandomNumberByRange(start: number, end: number) {
   return Math.round(Math.random() * (end - start) + start)
 }
 
-function createImg(onload, src) {
+function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | null, src: string | any[]) {
   const img = new Image()
   img.crossOrigin = "Anonymous"
   img.onload = onload
@@ -70,22 +70,22 @@ function getRandomImgSrc() {
 }
 
 
-function createElement(tagName, className) {
+function createElement(tagName: any, className: any) {
   const elment = document.createElement(tagName)
   elment.className = className
   return elment
 }
 
-function addClass(tag, className) {
+function addClass(tag: { classList: { add: (arg0: any) => void; }; }, className: string) {
   tag.classList.add(className)
 }
 
-function removeClass(tag, className) {
+function removeClass(tag: { classList: { remove: (arg0: any) => void; }; }, className: string) {
   tag.classList.remove(className)
 }
 
 
-function drawPiece(ctx, x, y){
+function drawPiece(ctx: CanvasRenderingContext2D | null, x: number, y: number){
   ctx.beginPath()
   ctx.moveTo(x, y)
   ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
@@ -98,7 +98,7 @@ function drawPiece(ctx, x, y){
   ctx.stroke()
 }
 
-function drawPieceInsideShadow(ctx, x, y){
+function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1: number, arg2: number) => void; }, x: any, y: any){
   // 第一步生成一个 piece 图形模板
   let piece = document.createElement("canvas");
   piece.width = w
@@ -147,7 +147,7 @@ function drawPieceInsideShadow(ctx, x, y){
   ctx.drawImage(shadow, 0, 0)
 }
 
-function drawBlock(img, ctx, x, y) {
+function drawBlock(img: HTMLImageElement, ctx: { lineWidth: number; fillStyle: string; strokeStyle: string; clip: () => void; globalCompositeOperation: string; drawImage: (arg0: HTMLCanvasElement, arg1: number, arg2: number, arg3: number | undefined, arg4: number | undefined) => void; getImageData: (arg0: number, arg1: number, arg2: number, arg3: number) => any; canvas: CanvasImageSource; putImageData: (arg0: any, arg1: number, arg2: number) => void; }, x: number, y: number) {
   // 第一步 生成包含图像的 piece 方块
   ctx.lineWidth = 0.5
   ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
@@ -186,11 +186,11 @@ function drawBlock(img, ctx, x, y) {
   ctx.drawImage(compositeCtx.canvas, 0, 0)
 }
 
-function sum(x, y) {
+function sum(x: any, y: any) {
   return x + y
 }
 
-function square(x) {
+function square(x: number) {
   return x * x
 }
 
@@ -279,15 +279,15 @@ export default class SlideVerify {
       typeof this.onRefresh === 'function' && this.onRefresh()
     }
     
-    let originX, originY, trail = [], isMouseDown = false
+    let originX: number, originY: number, trail: number[] = [], isMouseDown = false
     
-    const handleDragStart = function (e) {
+    const handleDragStart = function (e: { clientX: any; touches: { clientY: any; }[]; clientY: any; }) {
       originX = e.clientX || e.touches[0].clientX
       originY = e.clientY || e.touches[0].clientY
       isMouseDown = true
     }
     
-    const handleDragMove = (e) => {
+    const handleDragMove = (e: { clientX: any; touches: { clientY: any; }[]; clientY: any; }) => {
       if (!isMouseDown) return false
       const eventX = e.clientX || e.touches[0].clientX
       const eventY = e.clientY || e.touches[0].clientY
@@ -304,7 +304,7 @@ export default class SlideVerify {
       trail.push(moveY)
     }
     
-    const handleDragEnd = (e) => {
+    const handleDragEnd = (e: { clientX: any; changedTouches: { clientX: any; }[]; }) => {
       if (!isMouseDown) return false
       isMouseDown = false
       const eventX = e.clientX || e.changedTouches[0].clientX
@@ -344,7 +344,7 @@ export default class SlideVerify {
   verify() {
     const arr = this.trail // 拖动时y轴的移动距离
     const average = arr.reduce(sum) / arr.length
-    const deviations = arr.map(x => x - average)
+    const deviations = arr.map((x: number) => x - average)
     const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length)
     const left = parseInt(this.block.style.left)
     return {
