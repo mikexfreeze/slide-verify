@@ -7,6 +7,21 @@ import * as styles from './main.css'
 
 const Verify = require('./Verify.pug');
 
+interface Img extends HTMLImageElement {
+  src?: img | string;
+  crossOrigin?: string;
+}
+
+interface params {
+  elementId: string; 
+  onSuccess(): void; 
+  onFail(): void;
+  onRefresh(): void; 
+  lang?: string; 
+  photo?: string | string[];
+  source?: string;
+}
+
 const l = 42, // 滑块边长
   r = 7.5, // 滑块半径
   w = 310, // canvas宽度
@@ -14,7 +29,7 @@ const l = 42, // 滑块边长
   PI = Math.PI
 const L = l + r * 2 + 9 // 滑块实际边长
 
-function createCanvas(width: number | undefined, height: number | undefined){
+function createCanvas(width?: number | undefined, height?: number | undefined){
   var canvas = document.createElement("canvas");
   canvas.width = width || w;
   canvas.height = height || h;
@@ -26,16 +41,13 @@ function getRandomNumberByRange(start: number, end: number) {
 }
 
 function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | null, src: string | any[]) {
-  const img = new Image()
+  const img: Img = new Image()
   img.crossOrigin = "Anonymous"
   img.onload = onload
   img.onerror = () => {
-    img.setSrc(getRandomImgSrc())
+    img.src = getRandomImgSrc()
   }
   
-  img.setSrc = function (src) {
-    img.src = src
-  }
   let setSrc: string | img = ''
   if(src){
     // 如果用户设置图片则使用
@@ -47,7 +59,7 @@ function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | nul
   }else{
     setSrc = getRandomImgSrc()
   }
-  img.setSrc(setSrc)
+  img.src = setSrc
   
   return img
 }
@@ -156,7 +168,7 @@ function drawBlock(
   ctx.putImageData(ImageData, 0, pieceY)
   
   // 第二步生成外shadow piece
-  let shaodwCtx = createCanvas()
+  let shaodwCtx = <CanvasRenderingContext2D>createCanvas()
   shaodwCtx.canvas.width = L
   shaodwCtx.shadowColor = "black";
   shaodwCtx.shadowBlur = 6;
@@ -169,7 +181,7 @@ function drawBlock(
   shaodwCtx.stroke()
   shaodwCtx.fill()
   
-  let compositeCtx = createCanvas()
+  let compositeCtx = <CanvasRenderingContext2D>createCanvas()
   compositeCtx.canvas.width = L
   compositeCtx.drawImage(shaodwCtx.canvas, 0, 0)
   compositeCtx.drawImage(ctx.canvas, 0, 0)
@@ -187,16 +199,24 @@ function square(x: number) {
 }
 
 export default class SlideVerify {
-  constructor({elementId, onSuccess, onFail, onRefresh, lang, photo, source}) {
-    let intlText = {}
+  el: ChildNode;
+  onFail: () => void;
+  onSuccess: () => void;
+  onRefresh: () => void;
+  photo: string | string[] | undefined;
+  source: string | undefined;
+  x: number;
+
+  constructor({elementId, onSuccess, onFail, onRefresh, lang, photo, source}: params) {
+    let intlText: {slideTips?: string} = {}
     if(lang && lang === 'en'){
       intlText = {slideTips: 'slide to right'}
     }else{
       intlText = {slideTips: '向右滑动填充拼图'}
     }
-    let conEl = document.getElementById(elementId)
+    let conEl = <HTMLElement>document.getElementById(elementId)
     conEl.innerHTML = Verify({slideTips: intlText.slideTips})
-    let el = conEl.firstChild
+    let el = <ChildNode>conEl.firstChild
     let childNodes = el.childNodes
     this.el = el
     this.onSuccess = onSuccess
@@ -207,9 +227,9 @@ export default class SlideVerify {
       this.source = source
     }
     
-    let canvas = childNodes[0]
+    let canvas = <HTMLCanvasElement>childNodes[0]
     let refreshIcon = childNodes[1]
-    let block = childNodes[2]
+    let block = <HTMLCanvasElement>childNodes[2]
     let sliderContainer = childNodes[3]
     let sliderMask = sliderContainer.childNodes[0]
     let text = sliderContainer.childNodes[1]

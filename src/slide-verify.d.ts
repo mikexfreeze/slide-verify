@@ -1,0 +1,3 @@
+interface Img extends HTMLImageElement {
+  
+}
