@@ -6,12 +6,12 @@ const config = require('../config')
 const webpack = require('webpack')
 
 module.exports = merge(common, {
-  entry: ["./src/index.js"],
+  entry: ["./src/index.ts"],
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
     port: config.dev.port,
-    open: true
+    open: false
   },
   plugins: [
     new webpack.DefinePlugin({

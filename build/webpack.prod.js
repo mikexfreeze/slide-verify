@@ -8,7 +8,7 @@ const webpack = require('webpack')
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
-  entry: ["./src/slide-verify.js"],
+  entry: ["./src/slide-verify.ts"],
   output: {
     libraryTarget: 'umd',
     filename: 'slide-verify.js',

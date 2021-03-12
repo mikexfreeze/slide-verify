@@ -1,6 +1,6 @@
 /* create by Micheal Xiao 2019/7/19 15:56 */
 
-import * as ImgArray from './img'
+import ImgArray from './img'
 import './libs/fontawesome'
 import * as styles from './main.css'
 // const styles = require('./main.css');
@@ -13,7 +13,6 @@ const l = 42, // 滑块边长
   h = 210, // canvas高度
   PI = Math.PI
 const L = l + r * 2 + 9 // 滑块实际边长
-const isIE = window.navigator.userAgent.indexOf('Trident') > -1
 
 function createCanvas(width: number | undefined, height: number | undefined){
   var canvas = document.createElement("canvas");
@@ -35,21 +34,9 @@ function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | nul
   }
   
   img.setSrc = function (src) {
-    if (isIE) { // IE浏览器无法通过img.crossOrigin跨域，使用ajax获取图片blob然后转为dataURL显示
-      const xhr = new XMLHttpRequest()
-      xhr.onloadend = function (e) {
-        const file = new FileReader() // FileReader仅支持IE10+
-        file.readAsDataURL(e.target.response)
-        file.onloadend = function (e) {
-          img.src = e.target.result
-        }
-      }
-      xhr.open('GET', src)
-      xhr.responseType = 'blob'
-      xhr.send()
-    } else img.src = src
+    img.src = src
   }
-  let setSrc = ''
+  let setSrc: string | img = ''
   if(src){
     // 如果用户设置图片则使用
     if(typeof src === 'string'){
@@ -66,7 +53,7 @@ function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | nul
 }
 
 function getRandomImgSrc() {
-  return ImgArray[`Img${getRandomNumberByRange(0, 4)}`]
+  return ImgArray[getRandomNumberByRange(0, 4)]
 }
 
 
@@ -85,7 +72,7 @@ function removeClass(tag: { classList: { remove: (arg0: any) => void; }; }, clas
 }
 
 
-function drawPiece(ctx: CanvasRenderingContext2D | null, x: number, y: number){
+function drawPiece(ctx: CanvasRenderingContext2D, x: number, y: number){
   ctx.beginPath()
   ctx.moveTo(x, y)
   ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
@@ -103,7 +90,7 @@ function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1:
   let piece = document.createElement("canvas");
   piece.width = w
   piece.height = h
-  let pieceCtx = piece.getContext("2d");
+  let pieceCtx = <CanvasRenderingContext2D>piece.getContext("2d");
   pieceCtx.fillStyle = "white";
   
   drawPiece(pieceCtx, x, y)
@@ -115,7 +102,7 @@ function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1:
   
   // 第二步生成 piece 外围黑边准备用于内投影
   var hole = document.createElement("canvas");
-  var holeContext = hole.getContext("2d");
+  var holeContext = <CanvasRenderingContext2D>hole.getContext("2d");
   hole.width = w
   hole.height = h
   
@@ -131,7 +118,7 @@ function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1:
   
   // 第三步生成内shadow
   var shadow = document.createElement("canvas");
-  var shadowContext = shadow.getContext("2d");
+  var shadowContext = <CanvasRenderingContext2D>shadow.getContext("2d");
   shadow.width = w;
   shadow.height = h;
   shadowContext.filter = "drop-shadow(0px 0px " +  "5px #000000 ) ";
@@ -147,7 +134,12 @@ function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1:
   ctx.drawImage(shadow, 0, 0)
 }
 
-function drawBlock(img: HTMLImageElement, ctx: { lineWidth: number; fillStyle: string; strokeStyle: string; clip: () => void; globalCompositeOperation: string; drawImage: (arg0: HTMLCanvasElement, arg1: number, arg2: number, arg3: number | undefined, arg4: number | undefined) => void; getImageData: (arg0: number, arg1: number, arg2: number, arg3: number) => any; canvas: CanvasImageSource; putImageData: (arg0: any, arg1: number, arg2: number) => void; }, x: number, y: number) {
+function drawBlock(
+    img: HTMLImageElement, 
+    // ctx: { lineWidth: number; fillStyle: string; strokeStyle: string; clip: () => void; globalCompositeOperation: string; drawImage: (arg0: HTMLCanvasElement, arg1: number, arg2: number, arg3: number | undefined, arg4: number | undefined) => void; getImageData: (arg0: number, arg1: number, arg2: number, arg3: number) => any; canvas: CanvasImageSource; putImageData: (arg0: any, arg1: number, arg2: number) => void; }, 
+    ctx: CanvasRenderingContext2D,
+    x: number, 
+    y: number) {
   // 第一步 生成包含图像的 piece 方块
   ctx.lineWidth = 0.5
   ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
@@ -233,8 +225,8 @@ export default class SlideVerify {
       sliderMask,
       sliderIcon,
       text,
-      canvasCtx: canvas.getContext('2d'),
-      blockCtx: block.getContext('2d')
+      canvasCtx: <CanvasRenderingContext2D>canvas.getContext('2d'),
+      blockCtx: <CanvasRenderingContext2D>block.getContext('2d')
     })
     
     this.initImg()

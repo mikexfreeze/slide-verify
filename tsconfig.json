@@ -71,5 +71,6 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "allowJs": true
-  }
+  },
+  "include": ["src", "index.d.ts"]
 }

@@ -21,16 +21,23 @@ module.exports = {
       }, 
       {
         test: /\.css$/,
-        loader: 'typings-for-css-modules-loader?modules&namedExport'
-        // use: [
-        //   {loader: "style-loader"},
-        //   {
-        //     loader: "css-loader",
-        //     options: {
-        //       sourceMap: true,
-        //       modules: true,
-        //     }
-        //   }
+        // loader: 'typings-for-css-modules-loader?modules&namedExport'
+        use: [
+          {loader: "style-loader"},
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true,
+              modules: true,
+            }
+          }
+          // {
+          //   loader: "typings-for-css-modules-loader",
+          //   options: {
+          //     modules: true,
+          //     namedExport: true,
+          //   }
+          // }
         ]
       }, 
       {
