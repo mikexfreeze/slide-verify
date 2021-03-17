@@ -15,7 +15,7 @@ import Img1 from './1.jpg'
 import Img2 from './2.jpg'
 import Img3 from './3.jpg'
 import Img4 from './4.jpg'
-const imgs: Array<img> = [Img0,Img1,Img2,Img3,Img4]
+const imgs: Array<string> = [Img0,Img1,Img2,Img3,Img4]
 
 // TODO import once
 export default imgs

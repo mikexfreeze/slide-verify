@@ -7,11 +7,6 @@ import * as styles from './main.css'
 
 const Verify = require('./Verify.pug');
 
-interface Img extends HTMLImageElement {
-  src?: img | string;
-  crossOrigin?: string;
-}
-
 interface params {
   elementId: string; 
   onSuccess(): void; 
@@ -40,26 +35,24 @@ function getRandomNumberByRange(start: number, end: number) {
   return Math.round(Math.random() * (end - start) + start)
 }
 
-function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | null, src: string | any[] | undefined) {
-  const img: Img = new Image()
+function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | null, src: string | string[] | undefined) {
+  const img = new Image()
   img.crossOrigin = "Anonymous"
   img.onload = onload
   img.onerror = () => {
     img.src = getRandomImgSrc()
   }
   
-  let setSrc: string | img = ''
   if(src){
     // 如果用户设置图片则使用
     if(typeof src === 'string'){
-      setSrc = src
+      img.src = src
     }else if(Array.isArray(src)){
-      setSrc = src[getRandomNumberByRange(0, src.length - 1)]
+      img.src = src[getRandomNumberByRange(0, src.length - 1)]
     }
   }else{
-    setSrc = getRandomImgSrc()
+    img.src = getRandomImgSrc()
   }
-  img.src = setSrc
   
   return img
 }
@@ -209,7 +202,7 @@ export default class SlideVerify {
   canvasCtx: CanvasRenderingContext2D;
   blockCtx: CanvasRenderingContext2D;
   block: HTMLCanvasElement;
-  img?: Img;
+  img?: HTMLImageElement;
   refreshIcon: HTMLElement;
   slider: HTMLElement;
   canvas: HTMLCanvasElement;
@@ -273,7 +266,7 @@ export default class SlideVerify {
       // draw canvas 及 被抠出的 piece 留下的坑
       if(this.source){
         /* tsbug https://github.com/microsoft/TypeScript/issues/36133 */ 
-        this.canvasCtx.drawImage(img, ...this.source, 0, 0, w, h)
+        (this.canvasCtx.drawImage as any)(img, ...this.source, 0, 0, w, h)
       }else{
         this.canvasCtx.drawImage(img, 0, 0, w, h)
       }
@@ -304,15 +297,27 @@ export default class SlideVerify {
     let originX: number, originY: number, trail: number[] = [], isMouseDown = false
     
     const handleDragStart = function (e: MouseEvent | TouchEvent) {
-      originX = e.clientX || e.touches[0].clientX
-      originY = e.clientY || e.touches[0].clientY
+      if(e instanceof MouseEvent){
+        originX = e.clientX
+        originY = e.clientY
+      }else if(e instanceof TouchEvent){
+        originX = e.touches[0].clientX
+        originY = e.touches[0].clientY
+      }
       isMouseDown = true
     }
     
     const handleDragMove = (e: MouseEvent | TouchEvent) => {
       if (!isMouseDown) return false
-      const eventX = e.clientX || e.touches[0].clientX
-      const eventY = e.clientY || e.touches[0].clientY
+      let eventX = 0;
+      let eventY = 0;
+      if(e instanceof MouseEvent){
+        eventX = e.clientX
+        eventY = e.clientY
+      }else if(e instanceof TouchEvent){
+        eventX = e.touches[0].clientX
+        eventY = e.touches[0].clientY
+      }
       const moveX = eventX - originX
       const moveY = eventY - originY
       if (moveX < 0 || moveX + 38 >= w) return false;
@@ -329,7 +334,12 @@ export default class SlideVerify {
     const handleDragEnd = (e: MouseEvent | TouchEvent) => {
       if (!isMouseDown) return false
       isMouseDown = false
-      const eventX = e.clientX || e.changedTouches[0].clientX
+      let eventX = 0;
+      if(e instanceof MouseEvent){
+        eventX = e.clientX
+      }else if(e instanceof TouchEvent){
+        eventX = e.touches[0].clientX
+      }
       if (eventX == originX) return false
       removeClass(this.sliderContainer, styles.sliderContainer_active)
       this.trail = trail
@@ -386,4 +396,4 @@ export default class SlideVerify {
   }
 }
 
-window.SlideVerify = SlideVerify
+(window as any).SlideVerify = SlideVerify
