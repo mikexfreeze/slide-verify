@@ -19,7 +19,7 @@ interface params {
   onRefresh(): void; 
   lang?: string; 
   photo?: string | string[];
-  source?: string;
+  source?: number[];
 }
 
 const l = 42, // 滑块边长
@@ -40,7 +40,7 @@ function getRandomNumberByRange(start: number, end: number) {
   return Math.round(Math.random() * (end - start) + start)
 }
 
-function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | null, src: string | any[]) {
+function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | null, src: string | any[] | undefined) {
   const img: Img = new Image()
   img.crossOrigin = "Anonymous"
   img.onload = onload
@@ -148,7 +148,6 @@ function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1:
 
 function drawBlock(
     img: HTMLImageElement, 
-    // ctx: { lineWidth: number; fillStyle: string; strokeStyle: string; clip: () => void; globalCompositeOperation: string; drawImage: (arg0: HTMLCanvasElement, arg1: number, arg2: number, arg3: number | undefined, arg4: number | undefined) => void; getImageData: (arg0: number, arg1: number, arg2: number, arg3: number) => any; canvas: CanvasImageSource; putImageData: (arg0: any, arg1: number, arg2: number) => void; }, 
     ctx: CanvasRenderingContext2D,
     x: number, 
     y: number) {
@@ -199,13 +198,26 @@ function square(x: number) {
 }
 
 export default class SlideVerify {
-  el: ChildNode;
+  el: HTMLElement;
   onFail: () => void;
   onSuccess: () => void;
   onRefresh: () => void;
   photo: string | string[] | undefined;
-  source: string | undefined;
-  x: number;
+  source: number[] | undefined;
+  x?: number;
+  y?: number;
+  canvasCtx: CanvasRenderingContext2D;
+  blockCtx: CanvasRenderingContext2D;
+  block: HTMLCanvasElement;
+  img?: Img;
+  refreshIcon: HTMLElement;
+  slider: HTMLElement;
+  canvas: HTMLCanvasElement;
+  sliderContainer: HTMLElement;
+  sliderMask: HTMLElement;
+  sliderIcon: HTMLElement;
+  text: HTMLElement;
+  trail: number[];
 
   constructor({elementId, onSuccess, onFail, onRefresh, lang, photo, source}: params) {
     let intlText: {slideTips?: string} = {}
@@ -218,7 +230,7 @@ export default class SlideVerify {
     conEl.innerHTML = Verify({slideTips: intlText.slideTips})
     let el = <ChildNode>conEl.firstChild
     let childNodes = el.childNodes
-    this.el = el
+    this.el = el as HTMLElement
     this.onSuccess = onSuccess
     this.onFail = onFail
     this.onRefresh = onRefresh
@@ -227,31 +239,29 @@ export default class SlideVerify {
       this.source = source
     }
     
-    let canvas = <HTMLCanvasElement>childNodes[0]
-    let refreshIcon = childNodes[1]
-    let block = <HTMLCanvasElement>childNodes[2]
-    let sliderContainer = childNodes[3]
-    let sliderMask = sliderContainer.childNodes[0]
-    let text = sliderContainer.childNodes[1]
-    let slider = sliderMask.childNodes[0]
-    let sliderIcon = sliderMask.childNodes[0]
+    let canvas = childNodes[0] as HTMLCanvasElement
+    let refreshIcon = childNodes[1] as HTMLElement
+    let block = childNodes[2] as HTMLCanvasElement
+    let sliderContainer = childNodes[3] as HTMLElement
+    let sliderMask = sliderContainer.childNodes[0] as HTMLElement
+    let text = sliderContainer.childNodes[1] as HTMLElement
+    let slider = sliderMask.childNodes[0] as HTMLElement
+    let sliderIcon = sliderMask.childNodes[0] as HTMLElement
     
-    Object.assign(this, {
-      canvas,
-      block,
-      sliderContainer,
-      refreshIcon,
-      slider,
-      sliderMask,
-      sliderIcon,
-      text,
-      canvasCtx: <CanvasRenderingContext2D>canvas.getContext('2d'),
-      blockCtx: <CanvasRenderingContext2D>block.getContext('2d')
-    })
-    
+    this.canvas = canvas
+    this.block = block
+    this.sliderContainer = sliderContainer
+    this.refreshIcon = refreshIcon
+    this.slider = slider
+    this.sliderMask = sliderMask
+    this.sliderIcon = sliderIcon
+    this.text = text
+    this.canvasCtx = canvas.getContext('2d') as CanvasRenderingContext2D
+    this.blockCtx = block.getContext('2d') as CanvasRenderingContext2D
+    this.trail = []
+
     this.initImg()
     this.bindEvents()
-    
   }
   
   initImg() {
@@ -262,6 +272,7 @@ export default class SlideVerify {
   
       // draw canvas 及 被抠出的 piece 留下的坑
       if(this.source){
+        /* tsbug https://github.com/microsoft/TypeScript/issues/36133 */ 
         this.canvasCtx.drawImage(img, ...this.source, 0, 0, w, h)
       }else{
         this.canvasCtx.drawImage(img, 0, 0, w, h)
@@ -272,51 +283,50 @@ export default class SlideVerify {
       this.canvasCtx.fill()
       drawPieceInsideShadow(this.canvasCtx, this.x, this.y)
 
-
-      drawBlock(img, this.blockCtx, this.x, this.y)
+      drawBlock(img, this.blockCtx as CanvasRenderingContext2D, this.x, this.y)
     }, this.photo)
     this.img = img
   }
   
-  clean() {
-    this.canvasCtx.clearRect(0, 0, w, h)
-    this.blockCtx.clearRect(0, 0, w, h)
-    this.block.width = w
+  clean(): void {
+    (this.canvasCtx as CanvasRenderingContext2D).clearRect(0, 0, w, h);
+    (this.blockCtx as CanvasRenderingContext2D).clearRect(0, 0, w, h);
+    (this.block as HTMLCanvasElement).width = w
   }
   
   bindEvents() {
-    this.el.onselectstart = () => false
-    this.refreshIcon.onclick = () => {
+    this.el.onselectstart = () => false;
+    (this.refreshIcon as HTMLElement).onclick = () => {
       this.reset()
       typeof this.onRefresh === 'function' && this.onRefresh()
     }
     
     let originX: number, originY: number, trail: number[] = [], isMouseDown = false
     
-    const handleDragStart = function (e: { clientX: any; touches: { clientY: any; }[]; clientY: any; }) {
+    const handleDragStart = function (e: MouseEvent | TouchEvent) {
       originX = e.clientX || e.touches[0].clientX
       originY = e.clientY || e.touches[0].clientY
       isMouseDown = true
     }
     
-    const handleDragMove = (e: { clientX: any; touches: { clientY: any; }[]; clientY: any; }) => {
+    const handleDragMove = (e: MouseEvent | TouchEvent) => {
       if (!isMouseDown) return false
       const eventX = e.clientX || e.touches[0].clientX
       const eventY = e.clientY || e.touches[0].clientY
       const moveX = eventX - originX
       const moveY = eventY - originY
-      if (moveX < 0 || moveX + 38 >= w) return false
-      this.slider.style.left = moveX + 'px'
+      if (moveX < 0 || moveX + 38 >= w) return false;
+      (this.slider as HTMLElement).style.left = moveX + 'px'
       // const blockLeft = (w - 40 - 20) / (w - 40) * moveX
-      const blockLeft = moveX
-      this.block.style.left = blockLeft + 'px'
+      const blockLeft = moveX;
+      (this.block as HTMLCanvasElement).style.left = blockLeft + 'px'
       
       addClass(this.sliderContainer, styles.sliderContainer_active)
       this.sliderMask.style.width = moveX + 12 + 'px'
       trail.push(moveY)
     }
     
-    const handleDragEnd = (e: { clientX: any; changedTouches: { clientX: any; }[]; }) => {
+    const handleDragEnd = (e: MouseEvent | TouchEvent) => {
       if (!isMouseDown) return false
       isMouseDown = false
       const eventX = e.clientX || e.changedTouches[0].clientX
@@ -326,7 +336,7 @@ export default class SlideVerify {
       const {spliced, verified} = this.verify()
       if (spliced) {
         if (verified) {
-          this.sliderIcon.childNodes[0].innerHTML = `<i class="fas fa-check" aria-hidden="true"></i>`
+          (<HTMLElement>this.sliderIcon.childNodes[0]).innerHTML = `<i class="fas fa-check" aria-hidden="true"></i>`
           addClass(this.sliderContainer, styles.sliderContainer_success)
           typeof this.onSuccess === 'function' && this.onSuccess()
         } else {
@@ -335,7 +345,7 @@ export default class SlideVerify {
           this.reset()
         }
       } else {
-        this.sliderIcon.childNodes[0].innerHTML = `<i class="fas fa-times" aria-hidden="true"></i>`
+        (<HTMLElement>this.sliderIcon.childNodes[0]).innerHTML = `<i class="fas fa-times" aria-hidden="true"></i>`
         addClass(this.sliderContainer, styles.sliderContainer_fail)
         typeof this.onFail === 'function' && this.onFail()
         setTimeout(() => {
@@ -360,17 +370,17 @@ export default class SlideVerify {
     const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length)
     const left = parseInt(this.block.style.left)
     return {
-      spliced: Math.abs(left - this.x) < 10,
+      spliced: Math.abs(left - (<number>this.x)) < 10,
       verified: stddev !== 0, // 简单验证下拖动轨迹，为零时表示Y轴上下没有波动，可能非人为操作
     }
   }
   
   reset() {
-    this.sliderContainer.className = styles.sliderContainer
-    this.sliderIcon.childNodes[0].innerHTML = `<i class="fas fa-bars fa-rotate-90" aria-hidden="true"></i>`
-    this.slider.style.left = 0
-    this.block.style.left = 0
-    this.sliderMask.style.width = 0
+    this.sliderContainer.className = styles.sliderContainer;
+    (<HTMLElement>this.sliderIcon.childNodes[0]).innerHTML = `<i class="fas fa-bars fa-rotate-90" aria-hidden="true"></i>`
+    this.slider.style.left = '0'
+    this.block.style.left = '0'
+    this.sliderMask.style.width = '0'
     this.clean()
     this.initImg()
   }
