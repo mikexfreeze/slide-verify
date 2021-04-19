@@ -4,9 +4,10 @@ import ImgArray from './img'
 import './libs/fontawesome'
 import * as styles from './main.css'
 // const styles = require('./main.css');
-
+import { createCanvas } from './utils'
 const Verify = require('./Verify.pug');
 
+console.log(navigator.userAgent)
 interface params {
   elementId: string; 
   onSuccess(): void; 
@@ -19,17 +20,12 @@ interface params {
 
 const l = 42, // 滑块边长
   r = 7.5, // 滑块半径
-  w = 310, // canvas宽度
-  h = 210, // canvas高度
+  svCanvasWidth = 310, // canvas宽度
+  svCanvasHeight = 210, // canvas高度
   PI = Math.PI
 const L = l + r * 2 + 9 // 滑块实际边长
 
-function createCanvas(width?: number | undefined, height?: number | undefined){
-  var canvas = document.createElement("canvas");
-  canvas.width = width || w;
-  canvas.height = height || h;
-  return canvas.getContext("2d")
-}
+
 
 function getRandomNumberByRange(start: number, end: number) {
   return Math.round(Math.random() * (end - start) + start)
@@ -93,8 +89,8 @@ function drawPiece(ctx: CanvasRenderingContext2D, x: number, y: number){
 function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1: number, arg2: number) => void; }, x: any, y: any){
   // 第一步生成一个 piece 图形模板
   let piece = document.createElement("canvas");
-  piece.width = w
-  piece.height = h
+  piece.width = svCanvasWidth
+  piece.height = svCanvasHeight
   let pieceCtx = <CanvasRenderingContext2D>piece.getContext("2d");
   pieceCtx.fillStyle = "white";
   
@@ -108,12 +104,12 @@ function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1:
   // 第二步生成 piece 外围黑边准备用于内投影
   var hole = document.createElement("canvas");
   var holeContext = <CanvasRenderingContext2D>hole.getContext("2d");
-  hole.width = w
-  hole.height = h
+  hole.width = svCanvasWidth
+  hole.height = svCanvasHeight
   
   //first, I draw a big black rect
   holeContext.fillStyle = "#000000";
-  holeContext.fillRect(0,0,w,h)
+  holeContext.fillRect(0,0,svCanvasWidth,svCanvasHeight)
   //then I use the image to make an hole in it
   holeContext.globalCompositeOperation = "xor";
   
@@ -124,8 +120,8 @@ function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1:
   // 第三步生成内shadow
   var shadow = document.createElement("canvas");
   var shadowContext = <CanvasRenderingContext2D>shadow.getContext("2d");
-  shadow.width = w;
-  shadow.height = h;
+  shadow.width = svCanvasWidth;
+  shadow.height = svCanvasHeight;
   shadowContext.filter = "drop-shadow(0px 0px " +  "5px #000000 ) ";
   
   // 默认 source-over 模式下叠加阴影，destination-out 模式...
@@ -153,14 +149,14 @@ function drawBlock(
   ctx.globalCompositeOperation = 'source-over'
   
   // 设置图像及边长
-  ctx.drawImage(img, 0, 0, w, h)
+  ctx.drawImage(img, 0, 0, svCanvasWidth, svCanvasHeight)
   const pieceY = y - r * 2 - 1
   const ImageData = ctx.getImageData(x - 3, pieceY, L, L)
   ctx.canvas.width = L
   ctx.putImageData(ImageData, 0, pieceY)
   
   // 第二步生成外shadow piece
-  let shaodwCtx = <CanvasRenderingContext2D>createCanvas()
+  let shaodwCtx = <CanvasRenderingContext2D>createCanvas(svCanvasWidth, svCanvasHeight)
   shaodwCtx.canvas.width = L
   shaodwCtx.shadowColor = "black";
   shaodwCtx.shadowBlur = 6;
@@ -173,7 +169,7 @@ function drawBlock(
   shaodwCtx.stroke()
   shaodwCtx.fill()
   
-  let compositeCtx = <CanvasRenderingContext2D>createCanvas()
+  let compositeCtx = <CanvasRenderingContext2D>createCanvas(svCanvasWidth, svCanvasHeight)
   compositeCtx.canvas.width = L
   compositeCtx.drawImage(shaodwCtx.canvas, 0, 0)
   compositeCtx.drawImage(ctx.canvas, 0, 0)
@@ -260,15 +256,15 @@ export default class SlideVerify {
   initImg() {
     const img = createImg(() => {
       // 随机创建滑块的位置
-      this.x = getRandomNumberByRange(L + 70, w - (L + 10))
-      this.y = getRandomNumberByRange(10 + r * 2, h - (L + 10))
+      this.x = getRandomNumberByRange(L + 70, svCanvasWidth - (L + 10))
+      this.y = getRandomNumberByRange(10 + r * 2, svCanvasHeight - (L + 10))
   
       // draw canvas 及 被抠出的 piece 留下的坑
       if(this.source){
         /* tsbug https://github.com/microsoft/TypeScript/issues/36133 */ 
-        (this.canvasCtx.drawImage as any)(img, ...this.source, 0, 0, w, h)
+        (this.canvasCtx.drawImage as any)(img, ...this.source, 0, 0, svCanvasWidth, svCanvasHeight)
       }else{
-        this.canvasCtx.drawImage(img, 0, 0, w, h)
+        this.canvasCtx.drawImage(img, 0, 0, svCanvasWidth, svCanvasHeight)
       }
       this.canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.35)'
       this.canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
@@ -282,9 +278,9 @@ export default class SlideVerify {
   }
   
   clean(): void {
-    (this.canvasCtx as CanvasRenderingContext2D).clearRect(0, 0, w, h);
-    (this.blockCtx as CanvasRenderingContext2D).clearRect(0, 0, w, h);
-    (this.block as HTMLCanvasElement).width = w
+    (this.canvasCtx as CanvasRenderingContext2D).clearRect(0, 0, svCanvasWidth, svCanvasHeight);
+    (this.blockCtx as CanvasRenderingContext2D).clearRect(0, 0, svCanvasWidth, svCanvasHeight);
+    (this.block as HTMLCanvasElement).width = svCanvasWidth
   }
   
   bindEvents() {
@@ -320,7 +316,7 @@ export default class SlideVerify {
       }
       const moveX = eventX - originX
       const moveY = eventY - originY
-      if (moveX < 0 || moveX + 38 >= w) return false;
+      if (moveX < 0 || moveX + 38 >= svCanvasWidth) return false;
       (this.slider as HTMLElement).style.left = moveX + 'px'
       // const blockLeft = (w - 40 - 20) / (w - 40) * moveX
       const blockLeft = moveX;
