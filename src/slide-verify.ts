@@ -1,13 +1,21 @@
 /* create by Micheal Xiao 2019/7/19 15:56 */
 
-import ImgArray from './img'
 import './libs/fontawesome'
 import * as styles from './main.css'
-// const styles = require('./main.css');
-import { createCanvas } from './utils'
+import config from './config'
+import { 
+  createCanvas,
+  getRandomNumberByRange,
+  createImg,
+  addClass,
+  removeClass,
+} from './utils'
+import {
+  drawPiece
+} from './draw'
+const {L, r, svCanvasWidth, svCanvasHeight} = config
 const Verify = require('./Verify.pug');
 
-console.log(navigator.userAgent)
 interface params {
   elementId: string; 
   onSuccess(): void; 
@@ -16,74 +24,6 @@ interface params {
   lang?: string; 
   photo?: string | string[];
   source?: number[];
-}
-
-const l = 42, // 滑块边长
-  r = 7.5, // 滑块半径
-  svCanvasWidth = 310, // canvas宽度
-  svCanvasHeight = 210, // canvas高度
-  PI = Math.PI
-const L = l + r * 2 + 9 // 滑块实际边长
-
-
-
-function getRandomNumberByRange(start: number, end: number) {
-  return Math.round(Math.random() * (end - start) + start)
-}
-
-function createImg(onload: ((this: GlobalEventHandlers, ev: Event) => any) | null, src: string | string[] | undefined) {
-  const img = new Image()
-  img.crossOrigin = "Anonymous"
-  img.onload = onload
-  img.onerror = () => {
-    img.src = getRandomImgSrc()
-  }
-  
-  if(src){
-    // 如果用户设置图片则使用
-    if(typeof src === 'string'){
-      img.src = src
-    }else if(Array.isArray(src)){
-      img.src = src[getRandomNumberByRange(0, src.length - 1)]
-    }
-  }else{
-    img.src = getRandomImgSrc()
-  }
-  
-  return img
-}
-
-function getRandomImgSrc() {
-  return ImgArray[getRandomNumberByRange(0, 4)]
-}
-
-
-function createElement(tagName: any, className: any) {
-  const elment = document.createElement(tagName)
-  elment.className = className
-  return elment
-}
-
-function addClass(tag: { classList: { add: (arg0: any) => void; }; }, className: string) {
-  tag.classList.add(className)
-}
-
-function removeClass(tag: { classList: { remove: (arg0: any) => void; }; }, className: string) {
-  tag.classList.remove(className)
-}
-
-
-function drawPiece(ctx: CanvasRenderingContext2D, x: number, y: number){
-  ctx.beginPath()
-  ctx.moveTo(x, y)
-  ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
-  ctx.lineTo(x + l, y)
-  ctx.arc(x + l + r - 2, y + l / 2, r, 1.21 * PI, 2.78 * PI)
-  ctx.lineTo(x + l, y + l)
-  ctx.lineTo(x, y + l)
-  ctx.arc(x + r - 2, y + l / 2, r + 0.4, 2.76 * PI, 1.24 * PI, true)
-  ctx.lineTo(x, y)
-  ctx.stroke()
 }
 
 function drawPieceInsideShadow(ctx: { drawImage: (arg0: HTMLCanvasElement, arg1: number, arg2: number) => void; }, x: any, y: any){

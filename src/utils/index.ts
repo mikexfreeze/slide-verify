@@ -1,5 +1,14 @@
 import createCanvas from './createCanvas'
-
+import createImg from './createImg'
+import { 
+  getRandomNumberByRange,
+  addClass,
+  removeClass,
+} from './utils'
 export {
-  createCanvas
+  createCanvas,
+  getRandomNumberByRange,
+  createImg,
+  addClass,
+  removeClass,
 }
