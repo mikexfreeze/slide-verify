@@ -1,6 +1,4 @@
-import config from '../config'
-
-const {l, r} = config
+import {l, r} from '../config'
 
 const PI = Math.PI
 

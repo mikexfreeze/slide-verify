@@ -4,6 +4,8 @@ import {
   getRandomNumberByRange,
   addClass,
   removeClass,
+  square,
+  sum,
 } from './utils'
 export {
   createCanvas,
@@ -11,4 +13,6 @@ export {
   createImg,
   addClass,
   removeClass,
+  square,
+  sum,
 }
