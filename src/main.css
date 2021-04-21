@@ -133,4 +133,49 @@
 
 /*global*/
 
+/* mobile */
+
+@media screen and (min-width: 900px) {
+    .sliderContainer {
+        width: 620px;
+        height: 80px;
+        line-height: 70px;
+        margin-top: 26px;
+        margin-left: 1px;
+        border-radius: 20px;
+        border: 1px solid #e4e7eb;
+        font-size: 44px;
+        padding-left: 81px;
+    }
+
+    .sliderContainer_active .sliderMask {
+        height: 76px;
+    }
+
+    .sliderContainer_fail .sliderMask {
+        height: 76px;
+    }
+
+    .slider {
+        top: -18px;
+        left: -7px;
+        width: 112px;
+        height: 112px;
+        border-radius: 66px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        transition: background .2s linear;
+    }
+
+    .sliderIcon {
+        line-height: 112px;
+        font-size: 54px;
+    }
+
+    .refreshIcon {
+        font-size: 3rem;
+        width: 3.4rem;
+        
+    }
+  }
+
 

@@ -52,6 +52,7 @@ export default class SlideVerify {
   trail: number[];
 
   constructor({elementId, onSuccess, onFail, onRefresh, lang, photo, source}: params) {
+    console.log('svCanvasHeight', svCanvasHeight)
     let intlText: {slideTips?: string} = {}
     if(lang && lang === 'en'){
       intlText = {slideTips: 'slide to right'}
@@ -59,7 +60,11 @@ export default class SlideVerify {
       intlText = {slideTips: '向右滑动填充拼图'}
     }
     let conEl = <HTMLElement>document.getElementById(elementId)
-    conEl.innerHTML = Verify({slideTips: intlText.slideTips})
+    conEl.innerHTML = Verify({
+      slideTips: intlText.slideTips,
+      svCanvasHeight,
+      svCanvasWidth,
+    })
     let el = <ChildNode>conEl.firstChild
     let childNodes = el.childNodes
     this.el = el as HTMLElement

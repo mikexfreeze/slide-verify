@@ -1,9 +1,9 @@
 - styles = require("./main.css");
-#ImgVerif(style='position: relative; width: 310px; margin: 0px auto;')
-  canvas(width='310', height='210')
+#ImgVerif(style=`position: relative; width: ${svCanvasWidth}px; margin: 0px auto;`)
+  canvas(width=svCanvasWidth, height=svCanvasHeight)
   .refreshIcon(class=styles.refreshIcon)
     i.fas.fa-sync-alt
-  canvas(class=styles.block, width='310', height='210')
+  canvas(class=styles.block, width=svCanvasWidth, height=svCanvasHeight)
   .sliderContainer(class=styles.sliderContainer)
     .sliderMask(class=styles.sliderMask)
       .slider(class=styles.slider)
