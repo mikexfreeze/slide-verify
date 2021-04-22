@@ -17,10 +17,10 @@ import SlideVerify from '../dist/slide-verify'
 
 let Slide = new SlideVerify({
   elementId: "root",
+  lang: 'en', // set language English
   onSuccess: () => {console.log("success")},
   onFail: () => {console.log("fail")},
-  onRefresh: () => {console.log("refresh")},
-  lang: 'en'
+  onRefresh: () => {console.log("refresh")}
 })
 ```
 ```html
@@ -29,6 +29,17 @@ let Slide = new SlideVerify({
 </body>
 ```
 elementId for dom id
+
+### Options
+
+Name | Type | Require | default | description |
+---|---|---|---|---
+elementId | string | Yes | *null* | mount element dom id
+photo | string or array | No | *null* | back ground image url or image url array
+onSuccess | function | Yes | *null* | success callback
+onFail | function | Yes | *null* | fail call back
+onRefresh | function | Yes | *null* | refresh call back
+source | array | No | *null* | [x, y, width, height] only work when you set photo，cut the image。x,y set cut from location，width, height set cut width and height，[example](https://github.com/mikexfreeze/slide-verify/issues/4#issuecomment-727855481)
 
 ## Featrue
 

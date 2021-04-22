@@ -65,14 +65,14 @@ new SlideVerify(option)
 
 ### Options
 
-名称 | 类型 | 默认值 | 说明 |
----|---|---|---
-elementId | string | *null* | 挂载点的 dom id
-photo | string or array | *null* | 背景图片url 或 背景图片url组成的数组
-source | array | *null* | [x, y, width, height] 仅在设置 photo 之后生效，截取给定图片。x,y 设置截取的横纵坐标起始点，width, height 设置截取的宽度和高度，[举例](https://github.com/mikexfreeze/slide-verify/issues/4#issuecomment-727855481)
-onSuccess | function | *null* | 验证通过时回调此函数
-onFail | function | *null* | 验证失败时回调此函数
-onRefresh | function | *null* | 点击重新加载图标时回调此函数
+名称 | 类型 | 必填 | 默认值 | 说明 |
+---|---|---|---|---
+elementId | string | 是 | *null* | 挂载点的 dom id
+photo | string or array | 否 | *null* | 背景图片url 或 背景图片url组成的数组
+onSuccess | function | 是 | *null* | 验证通过时回调此函数
+onFail | function | 是 | *null* | 验证失败时回调此函数
+onRefresh | function | 是 | *null* | 点击重新加载图标时回调此函数
+source | array | 否 | *null* | [x, y, width, height] 仅在设置 photo 之后生效，截取给定图片。x,y 设置截取的横纵坐标起始点，width, height 设置截取的宽度和高度，[举例](https://github.com/mikexfreeze/slide-verify/issues/4#issuecomment-727855481)
 
 ## 特性
 
