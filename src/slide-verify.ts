@@ -52,7 +52,6 @@ export default class SlideVerify {
   trail: number[];
 
   constructor({elementId, onSuccess, onFail, onRefresh, lang, photo, source}: params) {
-    console.log('svCanvasHeight', svCanvasHeight)
     let intlText: {slideTips?: string} = {}
     if(lang && lang === 'en'){
       intlText = {slideTips: 'slide to right'}
@@ -103,7 +102,7 @@ export default class SlideVerify {
   
   initImg() {
     const img = createImg(() => {
-      // 随机创建滑块的位置
+      // 随机创建滑块挖取的位置
       this.x = getRandomNumberByRange(L + 70, svCanvasWidth - (L + 10))
       this.y = getRandomNumberByRange(10 + r * 2, svCanvasHeight - (L + 10))
   
@@ -182,7 +181,7 @@ export default class SlideVerify {
       if(e instanceof MouseEvent){
         eventX = e.clientX
       }else if(e instanceof TouchEvent){
-        eventX = e.touches[0].clientX
+        eventX = e.changedTouches[0].clientX
       }
       if (eventX == originX) return false
       removeClass(this.sliderContainer, styles.sliderContainer_active)
@@ -224,7 +223,7 @@ export default class SlideVerify {
     const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length)
     const left = parseInt(this.block.style.left)
     return {
-      spliced: Math.abs(left - (<number>this.x)) < 10,
+      spliced: Math.abs(left - <number>this.x) < 10,
       verified: stddev !== 0, // 简单验证下拖动轨迹，为零时表示Y轴上下没有波动，可能非人为操作
     }
   }

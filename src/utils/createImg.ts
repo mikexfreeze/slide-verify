@@ -30,5 +30,5 @@ export default function createImg(onload: ((this: GlobalEventHandlers, ev: Event
 
 
 function getRandomImgSrc() {
-  return ImgArray[getRandomNumberByRange(0, 4)]
+  return ImgArray[getRandomNumberByRange(0, ImgArray.length - 1)]
 }

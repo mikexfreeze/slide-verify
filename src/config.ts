@@ -4,9 +4,9 @@ let l = 42, // 滑块边长
   svCanvasWidth = 310, // canvas宽度
   svCanvasHeight = 210, // canvas高度
   L = l + r * 2 + 9 // 滑块实际边长
-
+const mobile = checkMobile()
 function calcPixel() {
-  if(checkMobile()){
+  if(mobile){
     svCanvasWidth = scalePixel(svCanvasWidth)
     svCanvasHeight = scalePixel(svCanvasHeight)
     l = scalePixel(l)
@@ -38,4 +38,5 @@ export {
   svCanvasWidth, // canvas宽度
   svCanvasHeight, // canvas高度
   L, // 滑块实际边长
+  mobile,
 }

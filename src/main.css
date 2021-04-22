@@ -135,7 +135,8 @@
 
 /* mobile */
 
-@media screen and (min-width: 900px) {
+@media only screen
+and (max-device-width: 480px) {
     .sliderContainer {
         width: 620px;
         height: 80px;
