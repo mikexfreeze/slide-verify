@@ -4,14 +4,20 @@
 
 ## Live Demo
 
-[live demo](https://blog.duandiwang.com/slide-verify/)
+<p align="center">
+  <a href="https://blog.duandiwang.com/slide-verify/">
+    <img width="315" src="https://blog.duandiwang.com/slide-verify/public/slide-verify-en.png">
+  </a>
+</p>
 
 ## Install
+
 ```shell
 npm install slide-verify -S
 ```
 
 ## quick start
+
 ```js
 import SlideVerify from '../dist/slide-verify'
 
@@ -23,11 +29,13 @@ let Slide = new SlideVerify({
   onRefresh: () => {console.log("refresh")}
 })
 ```
+
 ```html
 <body>
     <div id="root"></div>
 </body>
 ```
+
 elementId for dom id
 
 ### Options
@@ -49,6 +57,3 @@ source | array | No | *null* | [x, y, width, height] only work when you set phot
 ## Contribution
 
 This project refers to the project [canvas滑动验证码](https://github.com/yeild/jigsaw)
-
-
-

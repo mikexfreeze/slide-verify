@@ -15,11 +15,13 @@
 [在线Demo](https://blog.duandiwang.com/slide-verify/)
 
 ## 安装
+
 ```shell
 npm install slide-verify -S
 ```
 
 ## 快速开始
+
 ```js
 import SlideVerify from 'slide-verify'
 
@@ -31,11 +33,13 @@ const Slide = new SlideVerify({
   photo: 'www.xxx.com/img' // 背景图片地址
 })
 ```
+
 ```html
 <body>
     <div id="root"></div>
 </body>
 ```
+
 elementId 为挂载点的 dom id
 
 ### 外部引入方式
@@ -82,8 +86,3 @@ source | array | 否 | *null* | [x, y, width, height] 仅在设置 photo 之后�
 ## 感谢 Contribution
 
 此项目参考 [canvas滑动验证码](https://github.com/yeild/jigsaw)
-
-
-
-
-
