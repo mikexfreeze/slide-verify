@@ -4,6 +4,10 @@
 
 > 滑动条验证插件
 
+<a href="https://raw.githubusercontent.com/mikexfreeze/slide-verify/master/LICENSE.md"><img src="https://img.shields.io/npm/l/slide-verify" alt="License"/></a>
+<!-- <a href="https://github.com/mikexfreeze/slide-verify/network/dependents"><img src="https://img.shields.io/librariesio/dependent-repos/npm/slide-verify?style=flat-square" alt="Dependents"/></a> -->
+<a href="https://www.npmjs.com/package/slide-verify"><img src="https://img.shields.io/npm/dm/slide-verify?style=flat-square" alt="Downloads"/></a>
+
 ## 在线Demo
 
 <p align="center">

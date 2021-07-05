@@ -2,6 +2,9 @@
 
 > js slide captcha plugin
 
+<a href="https://raw.githubusercontent.com/mikexfreeze/slide-verify/master/LICENSE.md"><img src="https://img.shields.io/npm/l/slide-verify" alt="License"/></a>
+<a href="https://www.npmjs.com/package/slide-verify"><img src="https://img.shields.io/npm/dm/slide-verify?style=flat-square" alt="Downloads"/></a>
+
 ## Live Demo
 
 <p align="center">
