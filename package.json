@@ -1,13 +1,15 @@
 {
   "name": "slide-verify",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "front-end slide verify",
   "main": "dist/slide-verify.js",
+  "types": "dist/slide-verify.d.ts",
   "scripts": {
     "start": "webpack-dev-server --config build/webpack.dev.js --progress",
     "dist": "webpack --config build/webpack.prod.js",
     "demo": "webpack --config build/build.demo.js",
     "distdemo": "npm run dist && webpack --config build/build.demo.js",
+    "declar": "node ./node_modules/typescript/bin/tsc src/slide-verify.ts --allowJs --declaration --emitDeclarationOnly --out dist/slide-verify.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "browserslist": [

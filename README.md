@@ -82,6 +82,7 @@ source | array | 否 | *null* | [x, y, width, height] 仅在设置 photo 之后�
 
 1. 使用 css-module 开发，放心使用，没有 css 污染困扰
 2. UMD 方式打包，多种引入方式（external、es6）
+3. 支持 TypeScript 内含 types 声明文件
 
 ## 感谢 Contribution
 

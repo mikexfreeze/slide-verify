@@ -53,6 +53,7 @@ source | array | No | *null* | [x, y, width, height] only work when you set phot
 
 1. css-module developed
 2. UMD
+3. support TypeScript
 
 ## Contribution
 
