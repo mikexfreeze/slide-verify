@@ -1,6 +1,6 @@
 {
   "name": "slide-verify",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "front-end slide verify",
   "main": "dist/slide-verify.js",
   "types": "dist/slide-verify.d.ts",
