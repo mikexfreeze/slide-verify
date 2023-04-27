@@ -1,7 +1,7 @@
 /* create by Micheal Xiao 2019/7/29 16:40 */
 /* create by Micheal Xiao 2018/11/7 16:53 */
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');

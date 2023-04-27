@@ -1,6 +1,6 @@
 {
   "name": "slide-verify",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "front-end slide verify",
   "main": "dist/slide-verify.js",
   "types": "dist/slide-verify.d.ts",
@@ -15,7 +15,6 @@
   "browserslist": [
     "last 1 version",
     "> 1%",
-    "maintained node versions",
     "not dead"
   ],
   "files": [
@@ -49,22 +48,22 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^6.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^3.1.0",
-    "file-loader": "^4.1.0",
-    "html-webpack-plugin": "^3.2.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.1",
     "pug": "^2.0.1",
     "pug-loader": "^2.4.0",
     "style-loader": "^0.23.1",
     "ts-loader": "^8.0.17",
     "typescript": "^4.2.3",
     "typings-for-css-modules-loader": "^1.7.0",
-    "url-loader": "^2.1.0",
-    "webpack": "^4.36.1",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.1",
-    "webpackbar": "^3.2.0"
+    "url-loader": "^4.1.1",
+    "webpack": "^5.81.0",
+    "webpack-cli": "^5.0.2",
+    "webpack-dev-server": "^4.13.3",
+    "webpack-merge": "^5.8.0",
+    "webpackbar": "^5.0.2"
   }
 }

@@ -1,6 +1,6 @@
 /* create by Micheal Xiao 2018/11/7 16:52 */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const config = require('../config')
 const webpack = require('webpack')
